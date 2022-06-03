@@ -1,0 +1,155 @@
+<html>
+<div class="single-ellipsis">this is a single line text ellipsis example.this is a single line text ellipsis
+    example.this is a single line text ellipsis example.</div>
+<div class="multi-ellipsis">this is a multi-line text ellipsis example.this is a multi-line text ellipsis example.this
+    is a multi-line text ellipsis example.this is a multi-line text ellipsis example.this is a multi-line text ellipsis
+    example.this is a multi-line text ellipsis example.this is a multi-line text ellipsis example.</div>
+<!-- float-multi-line-ellipsis https://www.jianshu.com/p/3bce7924a466 -->
+<div class="wrap">
+    <div class="text">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos labore sit vel itaque delectus atquequos
+        magnam assumenda quod architecto perspiciatis animi.
+    </div>
+</div>
+
+<div class="text-direction">right to left</div>
+<p dir="rtl">html attribute dir set rtl</p>
+
+<div class="text-align-start">text align start</div>
+<div class="text-align-end">text align end</div>
+
+<div class="text-align-left">
+    <div>text align left page 1</div>
+    <div>text align left page 2</div>
+</div>
+
+<div class="text-align-right">
+    <div>text align right page 1</div>
+    <div>text align right page 2</div>
+</div>
+
+<p>
+    <img class="vertical-middle" width="100vw" height="100vw" src="./../../asset/air.png" /> image in middle vertical
+    align.
+</p>
+
+<p>
+    <img class="vertical-bottom" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in bottom
+    vertical align.
+</p>
+<p>
+    <img class="vertical-percent" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in -200%
+    vertical align.
+</p>
+<p>
+    <img class="vertical-length" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in length
+    -100
+    vertical align.
+</p>
+
+<div class="hyphens">this is a hyphens example this is a hyphens examplethis is a hyphens examplethis is a hyphens
+    examplethis is a hyphens example</div>
+
+</html>
+<style lang="text/css">
+    .single-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .multi-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .wrap {
+        height: 40px;
+        line-height: 20px;
+        overflow: hidden;
+    }
+
+    .wrap .text {
+        float: right;
+        margin-left: -5px;
+        width: 100%;
+        word-break: break-all;
+    }
+
+    .wrap::before {
+        float: left;
+        width: 5px;
+        content: '';
+        height: 40px;
+    }
+
+    .wrap::after {
+        float: right;
+        content: "...";
+        height: 20px;
+        line-height: 20px;
+        /* 为三个省略号的宽度 */
+        width: 3em;
+        /* 使盒子不占位置 */
+        margin-left: -3em;
+        /* 移动省略号位置 */
+        position: relative;
+        left: 100%;
+        top: -20px;
+        padding-right: 5px;
+    }
+
+    .text-direction {
+        direction: rtl;
+        background-color: aqua;
+    }
+
+    .text-align-left {
+        text-align: left;
+    }
+
+    .text-align-right {
+        text-align: right;
+        background-color: azure;
+    }
+
+    .text-align-start {
+        text-align: start;
+        background-color: blueviolet;
+    }
+
+    .text-align-end {
+        text-align: end;
+        background-color: blanchedalmond;
+    }
+
+    .text-vertical {
+        width: 101vw;
+        height: 100px;
+        vertical-align: middle;
+        background-color: aquamarine;
+    }
+
+    .vertical-middle {
+        vertical-align: middle;
+    }
+
+    .vertical-bottom {
+        vertical-align: text-bottom;
+    }
+
+    .vertical-percent {
+        vertical-align: -200%;
+    }
+
+    .vertical-length {
+        vertical-align: -100;
+    }
+
+    .hyphens {
+        hyphens: manual;
+    }
+</style>
