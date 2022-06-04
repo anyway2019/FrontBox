@@ -92,4 +92,77 @@ Equals to
 - auto
   
 [Example](https://www.w3school.com.cn/tiy/t.asp?f=cssref_hyphens)
+# text-decoration[文本装饰线]
+text-decoration属性值：
+- none 无装饰线
+- underline 下划线
+- overline 上划线 默认1px
+- line-through 删除线 默认1px
+- inherit 继承父元素的属性 默认1px
+```css
+.text{
+    text-decoration:none;
+}
+//可以同时存在多种装饰线
+.multi{
+    text-decoration:underline overline line-through
+}
+```
+text-decoration 由如下属性组成:
+- text-decoration-color //装饰线的颜色
+- text-decoration-line
+- text-decoration-style
+- text-decoration-skip
+# text-decoration-line[文本装饰线-underline overline etc]
+
+# text-decoration-color[文本装饰线-颜色]
+
+# text-decoration-style[文本装饰线-风格]
+属性值：
+- solid:实线
+- double:双实线
+- dotted:虚线
+- wavy:波浪线
+# text-decoration-skip[文本装饰线-中断]
+设置装饰线应该在何处中断
+```css
+a{
+    text-decoration-skip:ink;
+}
+```
+
+ ![图片](./example/asset/t-d-s.webp)
+ 属性值：
+- objects:在文本内图片或者其他inline-block对象中断
+- none:
+- spaces:空格和断词处中断 (google浏览器和safari没效果)
+- ink:笔画下降（y）或者上升的字母中断
+- edges:装饰线开始和结尾处收缩
+- box-decoration:装饰线在继承的margin border和padding处中断
+  
+## Reference:[css-trick-text-decoration-skip](https://css-tricks.com/almanac/properties/t/text-decoration-skip/#:~:text=The%20text-decoration-skip%20property%20specifies%20where%20a%20text%20underline%2C,text%20and%20corrects%20punctuation%20grammar%20for%20some%20languages.)
+
+
+# white-space[空格]
+html 对空格的处理规则:忽略文本前后的空格，文本内部的的空格只保留一个。
+
+保留空格的方式:
+
+```html
+<pre>  white  space  </pre>
+
+<p>&nbsp;&nbsp;white&nbsp;&nbsp;space&nbsp;&nbsp;</p>
+
+<p> white 
+    space</p> <!--文本内部的换行符号视为空格 输出 white space -->
+<pre>white 
+    space
+</pre><!--pre文本内部的换行符号有效 -->
+```
+white-space的属性：
+- normal:遵循浏览器的基本规则
+- nowrap:超出容器宽度会换行
+- pre:遵循pre标签的规则
+- pre-wrap:遵循pre标签的规则&超出容器宽度会换行
+- pre-line:保留换行符其他遵循normal
 

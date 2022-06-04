@@ -1,5 +1,5 @@
 # background-position[背景图]
-依据background-position属性来展现雪碧图中不同的icon. 
+background-position 属性设置背景图像的起始位置。可以依据background-position属性来展现雪碧图中不同的icon. 
 
 background-position:
 - background-position-x

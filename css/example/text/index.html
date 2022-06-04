@@ -29,26 +29,36 @@
 </div>
 
 <p>
-    <img class="vertical-middle" width="100vw" height="100vw" src="./../../asset/air.png" /> image in middle vertical
+    <img class="vertical-middle" width="100vw" height="100vw" src="./../asset/air.png" /> image in middle vertical
     align.
 </p>
 
 <p>
-    <img class="vertical-bottom" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in bottom
+    <img class="vertical-bottom" width="100vw" height="100vw" border="0" src="./../asset/air.png" />image in bottom
     vertical align.
 </p>
 <p>
-    <img class="vertical-percent" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in -200%
+    <img class="vertical-percent" width="100vw" height="100vw" border="0" src="./../asset/air.png" />image in -200%
     vertical align.
 </p>
 <p>
-    <img class="vertical-length" width="100vw" height="100vw" border="0" src="./../../asset/air.png" />image in length
+    <img class="vertical-length" width="100vw" height="100vw" border="0" src="./../asset/air.png" />image in length
     -100
     vertical align.
 </p>
 
+<p class="delete-line">line-through</p>
+<p class="underline-line">underline</p>
+<p class="dash-overline-blue">dash-overline-blue</p>
+
+<p class="skip-objects-line">skip  <img width="50vw" height="50vh"/>line </p>
+<p class="skip-spaces-line">skip line &nbsp white-space</p>
+
 <div class="hyphens">this is a hyphens example this is a hyphens examplethis is a hyphens examplethis is a hyphens
     examplethis is a hyphens example</div>
+
+    <p> white 
+        space</p>
 
 </html>
 <style lang="text/css">
@@ -148,7 +158,23 @@
     .vertical-length {
         vertical-align: -100;
     }
-
+    .delete-line{
+        text-decoration: line-through solid;
+    }
+    .underline-line{
+        text-decoration: underline solid red;
+    }
+    .dash-overline-blue{
+        text-decoration: overline dashed blueviolet ;
+    }
+    .skip-objects-line{
+        text-decoration: line-through wavy red 2px;
+        text-decoration-skip: objects;
+    }
+    .skip-spaces-line{
+        text-decoration-line: underline;
+        text-decoration-skip: spaces;
+    }
     .hyphens {
         hyphens: manual;
     }
