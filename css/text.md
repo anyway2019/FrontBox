@@ -164,5 +164,5 @@ white-space的属性：
 - nowrap:超出容器宽度会换行
 - pre:遵循pre标签的规则
 - pre-wrap:遵循pre标签的规则&超出容器宽度会换行
-- pre-line:保留换行符其他遵循normal
+- pre-line:保留换行符,其他遵循normal
 
