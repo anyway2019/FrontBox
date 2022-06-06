@@ -1,0 +1,75 @@
+<html>
+
+<body>
+    <div class="fade-out"></div>
+    <div class="fade-out"></div>
+</body>
+
+</html>
+<style lang="text/css">
+    .fade-in {
+        animation: fadeIn 2s 1s ease-in;
+        width: 200px;
+        height: 100px;
+        transform: translateX(-100em);
+        background-color: aqua;
+    }
+    
+    .fade-out {
+        animation: fadeIn 2s 1s ease-in-out;
+        width: 200px;
+        height: 100px;
+        background-color: aqua;
+    }
+    
+    .bounce {
+        animation: bounce 2 ease 1 2 direction fill-mode;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            transform: translateX(-100em);
+        }
+        to {
+            transform: translateX(100em);
+        }
+    }
+    
+    @keyframes fadeOut {
+        0% {
+            transform: translateX(0em);
+        }
+        25% {
+            transform: translateX(-25em);
+        }
+        100% {
+            transform: translateX(-100em);
+        }
+    }
+    
+    @keyframes bounce {
+        0% {
+            transform: translateY(0);
+        }
+        20% {
+            transform: translateY(-60px);
+            rotate: (0deg);
+        }
+        25% {
+            transform: translateY(20px);
+            rotate: (0deg);
+        }
+        35% {
+            transform: translateY(0px);
+            rotate: (0deg);
+        }
+        60% {
+            transform: translateY(-20px);
+            rotate: (0deg);
+        }
+        100% {
+            transform: translateY(-20px);
+            rotate: (360deg);
+        }
+    }
+</style>
