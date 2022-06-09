@@ -1,0 +1,3 @@
+var mockNew = function() {
+
+}
