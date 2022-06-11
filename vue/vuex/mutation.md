@@ -1,0 +1,104 @@
+# Mutation
+mutation突变，变化的意思，即用来改变state的函数。store中的state不能直接修改需要通过提交mutation来改变state。mutation类似于事件有一个type和对应的回调函数
+## 如何定义
+```js
+const store = createStore({
+  state: {
+    count: 1
+  },
+  mutations: {
+    //无参
+    increment (state) {
+      state.count++
+    },
+    //传入参数
+    incrementWithParam(state,num){
+        state.count += num;
+    },
+    //传入载荷
+    incrementWithPayload(state,payload){
+        state.count += payload.num;
+    }
+  }
+})
+```
+## 如何调用
+```js
+   store.commit("increment");//无参数
+   store.commit("increment",10);//直接传入参数
+   store.commot("increment",{num:10});//载荷
+   store.commot({
+       type:"increment",
+       num:10
+   });//对象形式的提交
+```
+## mapMutations函数
+```js
+import {mapMutations} from 'vuex'
+
+export default{
+    //...
+    methods:{
+        ...mapMutatitons{
+            'increment',//equal to this.$store.commit('increment')
+            'incrementBy',//equal to this.$store.commit('increment',10)
+            add:'increment' //this.add() equal to this.$store.commit('increment')
+        }
+    }
+}
+```
+## Mutation 类型定义规范
+通常定义一个mutation-types.js文件，将mutation的一些类型定为一些常量字符串放在该文件：
+mutation-types.js
+```js
+export const RECORD_ADDRESS = 'RECORD_ADDRESS'
+export const ADD_CART = 'ADD_CART'
+export const REDUCE_CART = 'REDUCE_CART'
+export const INIT_BUYCART = 'INIT_BUYCART'
+```
+mutation.js
+```js
+import {RECORD_ADDRESS,ADD_CART,REDUCE_CART,INIT_BUYCART} from './mutation-types'
+export default {
+    //....
+    // 加入购物车
+	[ADD_CART](state, {
+		shopid,
+		category_id,
+		item_id,
+		food_id,
+		name,
+		price,
+		specs,
+		packing_fee,
+		sku_id,
+		stock
+	}) {
+		let cart = state.cartList;
+		let shop = cart[shopid] = (cart[shopid] || {});
+		let category = shop[category_id] = (shop[category_id] || {});
+		let item = category[item_id] = (category[item_id] || {});
+		if (item[food_id]) {
+			item[food_id]['num']++;
+		} else {
+			item[food_id] = {
+					"num" : 1,
+					"id" : food_id,
+					"name" : name,
+					"price" : price,
+					"specs" : specs,
+					"packing_fee" : packing_fee,
+					"sku_id" : sku_id,
+					"stock" : stock
+			};
+		}
+		state.cartList = {...cart};
+	},
+}
+```
+这样做的好处是其他人进入项目可以一目了然看到项目业务逻辑。
+
+## Mutation 必须是同步函数
+mutation函数如果是异步函数，devtools工具就无法追踪state变化的前后，任何异步回调函数都是无法追踪变化的，因为你无法得知回调函数什么时候发生，也无法预测哪个回调函数先触发。所以mutation是必须一个同步函数。
+
+## 异步函数[Action](action.md)

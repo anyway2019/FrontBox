@@ -1,0 +1,53 @@
+# State
+全局单例状态树，不可以直接修改。
+# mapState 函数
+### 什么是mapState 函数
+该函数顾名思义就是映射store中的属性到局部属性。
+例如：
+```js
+const count = {
+    template:`<div>{count}</div>`,
+    data(){
+        return {
+            localCount:0,
+            localCompute:0
+        }
+    }
+    computed:{
+        localCompute(){
+            return this.localCompute;
+        },
+        ...mapState({
+            count:store=>store.state.count,
+            countAlise:"count",//equal to up:store=>store.state.count
+            localPlusCount(state){
+                return state.count+this.localCount;        
+            }
+        }),
+    }
+}
+```
+### 为什么用mapState函数
+可以简化store属性和组件内部属性的映射，简化代码。尤其是store的属性于内部组件的属性名称一样时可以像下面这样使用
+```js
+const count = {
+    template:`<div>{count}</div>`,
+    data(){
+        return {
+            localCount:0,
+            localCompute:0
+        }
+    }
+    computed:{
+        localCompute(){
+            return this.localCompute;
+        },
+        ...mapState({
+            'count'//equal to count:store=>store.state.count,
+        }),
+    }
+}
+```
+
+# State对象中应该放组件的哪些属性
+单个组件的属性，与其他组件状态不相关的属性应改保持在组件内部，例如button点击后颜色属性的变化。

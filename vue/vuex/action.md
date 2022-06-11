@@ -1,0 +1,95 @@
+# Action
+Action类似于mutation用于改变state，但是Action不同于mutation的时Action提交的是mutation，同时Action可以使用异步函数。
+## 如何定义
+```js
+const store = createStore({
+    //...
+    actions:{
+        //context 是store的一个副本详情见Module
+        increment(context){
+            context.commit('increment');
+        }
+        //equal to
+        incrementSimple({commit}){
+            commit('increment');
+        },
+        //async action
+        incrementAsync({commit}){
+            setTimeout(()=>{
+                commit('increment');
+            },1000);
+        },
+        //multi-commit
+        checkout ({ commit, state }, products) {
+            // 把当前购物车的物品备份起来
+            const savedCartItems = [...state.cart.added]
+            // 发出结账请求
+            // 然后乐观地清空购物车
+            commit(types.CHECKOUT_REQUEST)
+            // 购物 API 接受一个成功回调和一个失败回调
+            shop.buyProducts(
+            products,
+            // 成功操作
+            () => commit(types.CHECKOUT_SUCCESS),
+            // 失败操作
+            () => commit(types.CHECKOUT_FAILURE, savedCartItems)
+            )
+        }
+    }
+})
+```
+## 如何使用
+```js
+store.dispatch('increment');
+
+store.dispatch('increment',10);
+
+store.dispatch('increment',{amount:10});
+
+store.dispatch({
+    type:'increment',
+    amount:10
+});
+```
+为什么需要在mutation的基础上在套一层action呢？因为mutation同步函数，所以需要action来完成异步函数，异步函数触发的时候提交mutation就能追踪state的变化前后发生了什么。
+
+
+## mapActions函数
+```js
+//...
+methods:{
+    ...mapActions{
+        'increment'//this.increment() ==> this.$store.dispatch('increment')
+        add:'increment'//this.add()==> this.$store.dispatch('increment')
+    }
+}
+```
+
+## 组合Action
+action是异步函数所以就可以使用promise包裹action的返回值从而获取action的结果。
+```js
+actions:{
+    //异步action返回
+    increamentAsync({commit}){
+        return new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                commit('increment');
+                resolve();
+            },1000)
+        })
+    },
+    //组合action
+    multiAction({dispatch,commit}){
+        return dispatch('incrementAsync').then(()=>{
+            commit('otherMutation');
+        });
+    },
+    //async await
+    async getList({commit}){
+        commit('getList',await api.getList());
+    },
+    async getDetail({commit}){
+        commit('getDetail',await api.getDetail());
+    }
+}
+```
