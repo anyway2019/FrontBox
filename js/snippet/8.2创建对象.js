@@ -41,7 +41,7 @@ var o = Object.create(null);
 Person.call(o, 'faaccy', 18); //this=>o
 o.sayName(); //faaccy
 
-//构造函数的问题：定义的方法在每次实例话的时候都会创建一个新的Function实例，即便多个实例的方法名是一样的但是他们方法却不是同一个Function实例
+//构造函数的问题：定义的方法在每次实例化的时候都会创建一个新的Function实例，即便多个实例的方法名是一样的但是他们方法却不是同一个Function实例
 //上述的Person函数还可以如下定义
 function Person(name, age) {
     this.name = name;
