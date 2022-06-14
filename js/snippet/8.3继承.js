@@ -57,7 +57,7 @@ function create(target) {
     return o;
 }
 //6.寄生组合继承:解决组合继承父函数会调用两次的问题
-function combine(child, parent) {
+function inheritPrototype(child, parent) {
     let proto = object(parent.prototype);
     proto.constructor = child;
     child.prototype = proto;
