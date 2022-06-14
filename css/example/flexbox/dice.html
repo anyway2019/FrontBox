@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box-left">
+            <span class="item-left"></span>
+        </div>
+        <div class="box-center">
+            <span class="item-center"></span>
+        </div>
+        <div class="box-right">
+            <span class="item-right"></span>
+        </div>
+        <div class="box-middle-left">
+            <span class="item-middle-left"></span>
+        </div>
+        <div class="box-middle-center">
+            <span class="item-middle-center"></span>
+        </div>
+        <div class="box-middle-right">
+            <span class="item-middle-right"></span>
+        </div>
+        <div class="box-bottom-left">
+            <span class="item-bottom-left"></span>
+        </div>
+        <div class="box-bottom-center">
+            <span class="item-bottom-center"></span>
+        </div>
+        <div class="box-bottom-right">
+            <span class="item-bottom-right"></span>
+        </div>
+        <div class="diagonal-3">
+            <span class="item"></span>
+            <span class="item"></span>
+            <span class="item"></span>
+        </div>
+    </div>
+</body>
+<style lang="text/css">
+    .container {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+    
+    .item {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .box-left {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+    }
+    
+    .box-center {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        justify-content: center;
+    }
+    
+    .box-right {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        justify-content: flex-end;
+    }
+    
+    .item-left,
+    .item-center,
+    .item-right {
+        margin-top: 10px;
+    }
+    
+    .item-left {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+    
+    .item-center {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .item-right {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    
+    .box-middle-left {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        align-items: center;
+    }
+    
+    .item-middle-left {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+    
+    .box-middle-center {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .item-middle-center {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .box-middle-right {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    .item-middle-right {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    
+    .item-bottom-center,
+    .item-bottom-left,
+    .item-bottom-right {
+        margin-bottom: 10px;
+    }
+    
+    .box-bottom-left {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+    
+    .item-bottom-left {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    
+    .box-bottom-center {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    
+    .item-bottom-center {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .box-bottom-right {
+        display: -webkit-flex;
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    
+    .item-bottom-right {
+        background-color: black;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    
+    .diagonal-3 {
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-evenly;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: antiquewhite;
+    }
+    
+    .item:nth-child(1) {
+        align-self: flex-start;
+        margin-top: 5px;
+    }
+    
+    .item:nth-child(2) {
+        align-self: center;
+    }
+    
+    .item:nth-child(3) {
+        align-self: flex-end;
+        margin-bottom: 5px;
+    }
+</style>
+
+</html>
