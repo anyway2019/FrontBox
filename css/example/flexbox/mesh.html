@@ -10,6 +10,43 @@
 
 <body>
 
+    <div class="row">
+        <div class="cell cell-1-2">1-2</div>
+        <div class="cell cell-1-4">1-4</div>
+        <div class="cell cell-1-4">1-4</div>
+        <div class="cell cell-1-2">1-2</div>
+        <div class="cell cell-1-4">1-4</div>
+        <div class="cell cell-1-4">1-4</div>
+    </div>
+
 </body>
+<style lang="text/css">
+    .row {
+        display: -webkit-flex;
+        display: flex;
+        height: 5vh;
+        flex-wrap: wrap;
+        column-gap: 5px;
+        row-gap: 5px;
+    }
+    
+    .cell {
+        border: 1px solid;
+        flex: 1;
+        box-sizing: border-box;
+    }
+    
+    .cell.cell-full {
+        flex: 1 1 100%;
+    }
+    
+    .cell.cell-1-2 {
+        flex: 2 1 50%;
+    }
+    
+    .cell.cell-1-4 {
+        flex: 1 1 calc(25%-5px);
+    }
+</style>
 
 </html>

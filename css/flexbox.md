@@ -3,9 +3,9 @@
 解决box在不固定宽高的时候布局。垂直居中
 使用场景？
 # flex容器属性
-- flex-wrap:内容超出容器是否换行 wrap(换行第一行在上) nowrap(不换行) wrap-reverse(换行第一行在下)
-- flex-direction: row(水平) row-reverse(水平右向左排列) column(垂直) column-revers(垂直下到上)
-- flex-flow:(是flex-direction flex-wrap的简写)
+- ```flex-wrap```:内容超出容器是否换行 wrap(换行第一行在上) nowrap(不换行) wrap-reverse(换行第一行在下)
+- ```flex-direction```: row(水平) row-reverse(水平右向左排列) column(垂直) column-revers(垂直下到上)
+- ```flex-flow```:(是flex-direction flex-wrap的简写)
 ```css
 .box {
   flex-flow: <flex-direction> || <flex-wrap>;
@@ -30,6 +30,8 @@
     - ```stretch```:与交叉轴两端对齐，轴线之间的间隔平均分布。
     - ```space-between```:与交叉轴两端对齐，轴线之间的间隔平均分布。
     - ```space-around```:与交叉轴两端对齐，轴线之间的间隔平均分布。
+- ```row-gap```:两行之间的间距
+- ```column-gap```:两列之间的间距
 
 # flex项目属性
 - ```order```:项目在容器中的顺序，默认其出现的顺序，数值越小越靠前可以为负数，默认0
@@ -42,6 +44,47 @@
 # Example
 - ### [骰子](../css/example/flexbox/index.html)
 - ### [网格布局](../css/example/flexbox/mesh.html)
+# flex 与 border-box
+看一个例子,
+```html
+<div class="row">
+    <div class="cell cell-1-2">1-2</div>
+    <div class="cell cell-1-4">1-4</div>
+    <div class="cell cell-1-4">1-4</div>
+    <div class="cell cell-1-2">1-2</div>
+    <div class="cell cell-1-4">1-4</div>
+    <div class="cell cell-1-4">1-4</div>
+</div>
+```
+```css
+.row {
+    display: -webkit-flex;
+    display: flex;
+    height: 5vh;
+    flex-wrap: wrap;
+}
+
+.cell {
+    border: 1px solid;
+    flex: 1;
+    box-sizing: border-box;//更该盒子模型让flex将border属性考虑在内
+}
+
+.cell.cell-full {
+    flex: 0 0 100%;
+}
+
+.cell.cell-1-2 {
+    flex: 0 0 50%;
+}
+
+.cell.cell-1-4 {
+    flex: 0 0 25%;
+}
+```
+当实现一个卡片，你希望卡片或者单元格的宽高与设计稿一样，如果采用默认的盒模型，但是样式包含padding或者border属性，最终卡片大于设计稿的宽高，且flex-wrap属性换行会考虑padding和border宽高如果使用不当会导致意外
+这是因为默认的盒模型宽高没有考虑border和padding的宽高，在flex布局中需要将卡片或者单元格的box-sizin：```boreder-box```
+
 # 参考链接 
 - [css-tutorial](https://github.com/wangdoc/css-tutorial/blob/master/docs/layout/flexbox.md)
 - [MDN-flexbox](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Flexbox)
