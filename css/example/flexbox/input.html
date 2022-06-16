@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input</title>
+</head>
+
+<body>
+    <div class="form">
+        <div class="search">
+            <input class="input" placeholder="please type in" />
+            <button class="search-button">go</button>
+        </div>
+
+        <div class="email">
+            <img class="icon" src="./../../example/asset/air.png" />
+            <input class="input" placeholder="please type in" />
+            <button class="send-button">Send</button>
+        </div>
+    </div>
+</body>
+<style lang="text/css">
+    .form {
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .search {
+        display: flex;
+        min-height: 36px;
+        width: 32%;
+    }
+    
+    .email {
+        display: flex;
+        width: 32%;
+    }
+    
+    .icon {
+        width: 36px;
+        height: 36px;
+        border: 1px solid;
+    }
+    
+    .input {
+        flex: 1;
+    }
+    
+    .search-button {
+        width: 32px;
+        border: 1px solid rebeccapurple;
+        cursor: pointer;
+    }
+    
+    .send-button {
+        width: 64px;
+        border: 1px solid rebeccapurple;
+        cursor: pointer;
+    }
+    
+    .button:hover {
+        width: 46px;
+    }
+</style>
+
+</html>

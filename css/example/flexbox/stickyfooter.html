@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Footer</title>
+</head>
+
+<body class="stickyfooter-container">
+    <header class="stickyfooter-header">
+        <ul class="stickyfooter-header-navigation">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </header>
+    <main class="stickyfooter-main">main</main>
+    <footer class="stickyfooter-footer">footer</footer>
+</body>
+<style lang="text/css">
+    * {
+        padding: 0 0;
+        margin: 0 0;
+    }
+    
+    .stickyfooter-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    
+    .stickyfooter-header {
+        background-color: antiquewhite;
+        min-height: 64px;
+    }
+    
+    .stickyfooter-header-navigation {
+        margin-top: 30px;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-end;
+        list-style: none;
+    }
+    
+    .stickyfooter-header-navigation a {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .stickyfooter-main {
+        flex: 1;
+    }
+    
+    .stickyfooter-footer {
+        background-color: green;
+        min-height: 64px;
+    }
+</style>
+
+</html>

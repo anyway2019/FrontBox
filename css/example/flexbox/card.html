@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>card</title>
+</head>
+
+<body>
+    <div class="card-container">
+        <div class="card-container-left">
+            <div class="card-item">
+                <img class="card-item-image" src="../asset/t-d-s.webp" />
+                <p class="card-item-page"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam modi pariatur voluptatem placeat illo asperiores tempora, aspernatur est et quod officiis aliquam similique, accusantium magnam sed inventore? Iste, unde quas.
+                </p>
+            </div>
+            <div class="card-item">
+                <img class="card-item-image" src="../asset/t-d-s.webp" />
+                <p class="card-item-page"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam modi pariatur voluptatem placeat illo asperiores tempora, aspernatur est et quod officiis aliquam similique, accusantium magnam sed inventore? Iste, unde quas.
+                </p>
+            </div>
+        </div>
+        <div class="card-container-right">
+            <div class="card-item">
+                <img class="card-item-image" src="../asset/t-d-s.webp" />
+                <p class="card-item-page"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam modi pariatur voluptatem placeat illo asperiores tempora, aspernatur est et quod officiis aliquam similique, accusantium magnam sed inventore? Iste, unde quas. Donec imperdiet
+                    unde quas. Donec imperdietunde quas. Donec imperdietunde quas. Donec imperdiet
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style lang="text/css">
+    .card-item {
+        display: flex;
+        background-color: aquamarine;
+        align-items: flex-start;
+        border: 1px solid beige;
+        border-radius: 5px;
+    }
+    
+    .card-item-image {
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    
+    .card-item-page {
+        flex: 1;
+        margin-left: 10px;
+    }
+    
+    .card-item-page::first-letter {
+        font-size: large;
+    }
+    
+    .card-container {
+        display: flex;
+        min-height: 800px;
+        background-color: aliceblue;
+        justify-content: space-evenly;
+    }
+    
+    .card-container-left {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 48%;
+    }
+    
+    .card-container-right {
+        width: 48%;
+    }
+</style>
+
+</html>

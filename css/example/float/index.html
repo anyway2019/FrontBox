@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2 class="float-title-h2">标题一</h2>
+        hello world
+    </div>
+    <h3 class="float-title-h3">标题二</h3>
+</body>
+<style lang="text/css">
+    .float-title-h2 {
+        height: 200px;
+        float: left;
+    }
+    
+    .float-title-h3 {
+        height: 200px;
+        clear: both; //清除浮动，如果不清楚浮动标题二九跑到hello world下面，原因是float元素已经脱离了普通文档流（float元素在普通文档流上面）
+    }
+</style>
+
+</html>
