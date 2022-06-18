@@ -44,6 +44,14 @@ Equals to
 - inherit:继承父元素的值
 - start:direction熟悉ltr左对齐，否则右对齐
 - end:与上述相反
+# text-transform[文本大小写]
+```css
+h1{text-transform:capitalize}
+
+h2{text-transform:uppercase} 
+
+h3{text-transform:lowercase} 
+```
 # vertical-align [文本垂直对齐方式]
 常见的垂直居中
 ```css
@@ -140,7 +148,8 @@ a{
 - edges:装饰线开始和结尾处收缩
 - box-decoration:装饰线在继承的margin border和padding处中断
   
-## Reference:[css-trick-text-decoration-skip](https://css-tricks.com/almanac/properties/t/text-decoration-skip/#:~:text=The%20text-decoration-skip%20property%20specifies%20where%20a%20text%20underline%2C,text%20and%20corrects%20punctuation%20grammar%20for%20some%20languages.)
+## 参考文档
+### [css-trick-text-decoration-skip](https://css-tricks.com/almanac/properties/t/text-decoration-skip/#:~:text=The%20text-decoration-skip%20property%20specifies%20where%20a%20text%20underline%2C,text%20and%20corrects%20punctuation%20grammar%20for%20some%20languages.)
 
 
 # white-space[空格]

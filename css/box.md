@@ -13,3 +13,6 @@ widith/height = content
 ## 外边距重叠
 普通文档流中两个垂直方向的盒子的外边距会发生重合，重合的部分取外边句较大的一方。
 [](https://upload-images.jianshu.io/upload_images/79178-7f94accd5a09b830.png?imageMogr2/auto-orient/strip|imageView2/2/w/515/format/webp)
+
+# 参考文档
+[MDN-The_box_model](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/The_box_model)

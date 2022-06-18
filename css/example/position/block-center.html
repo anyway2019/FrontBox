@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>div center</title>
+    <style lang="text/css">
+        .modal-box {
+            width: 300px;
+            height: 300px;
+            background-color: aquamarine;
+            border: 1px solid;
+            position: relative;
+        }
+        
+        .modal-box-content {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        
+        .modal-box-undefined-content {
+            background-color: blue;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        
+        .flex-box {
+            width: 300px;
+            height: 300px;
+            background-color: aquamarine;
+            border: 1px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .content {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+        
+        .position-box {
+            width: 300px;
+            height: 300px;
+            background-color: aquamarine;
+            border: 1px solid;
+            position: relative;
+        }
+        
+        .position-fixed-content {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* margin: -50px 0 0 -50px;*/
+            transform: translate(-50%, -50%);
+        }
+        
+        .position-undefined-content {
+            background-color: blue;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="modal-box">
+        <div class="modal-box-content">modal</div>
+    </div>
+    <div class="modal-box">
+        <div class="modal-box-undefined-content">modal</div>
+    </div>
+    <div class="flex-box">
+        <div class="content"></div>
+    </div>
+    <div class="position-box">
+        <div class="position-fixed-content"></div>
+    </div>
+    <div class="position-box">
+        <div class="position-undefined-content">undefined</div>
+    </div>
+</body>
+
+</html>
