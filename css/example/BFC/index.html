@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC</title>
+    <style lang="text/css">
+        .non-bfc {
+            border: 1px solid blueviolet;
+            width: 300px;
+            height: 32px;
+        }
+        
+        .non-bfc.top {
+            margin-top: 20px;
+        }
+        
+        .non-bfc.bottom {
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            overflow: hidden;
+        }
+        
+        .bfc {
+            border: 1px solid blueviolet;
+            width: 300px;
+            height: 32px;
+        }
+        
+        .bfc.top {
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .bfc.bottom {
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .float-container {
+            border: 1px solid red;
+        }
+        
+        .float-bfc-container {
+            overflow: hidden;
+            border: 1px solid red;
+            margin-top: 110px;
+        }
+        
+        .float-div {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+        }
+        
+        .non-bfc-div {
+            width: 200px;
+            height: 50px;
+            background-color: antiquewhite;
+        }
+        
+        .bfc-div {
+            width: 200px;
+            height: 50px;
+            background-color: bisque;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="non-bfc bottom"></div>
+    <div class="non-bfc top"></div>
+    <hr>
+    <!-- 抵消外边距重叠问题:发生外边距重叠的元素分别放在两个BFC容器中可以抵消外边距重叠-->
+    <div class="container">
+        <div class="bfc bottom"></div>
+    </div>
+    <div class="container">
+        <div class="bfc top"></div>
+    </div>
+
+    <div class="float-container">
+        <div class="float-div"></div>
+    </div>
+
+    <!-- float清除 -->
+    <div class="float-bfc-container">
+        <div class="float-div"></div>
+    </div>
+
+    <!-- 避免float元素覆盖 -->
+    <div class="float-div"></div>
+    <div class="non-bfc-div"></div>
+    <div class="bfc-div"></div>
+</body>
+
+</html>
