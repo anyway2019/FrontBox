@@ -128,9 +128,8 @@ class B extends A {
 class C extends B {
 
 }
-//混入多个对象的属性使用Object.assign()就可以了，如果想混入对象的行为，需要使用嵌套的继承方式来混入多个对象的行为和属性
+//混入多个对象的属性使用Object.assign()就可以了，如果想混入对象的行为，需要使用嵌套的继承方式来混入多个对象的行为和属性通过写一个辅助函数， 可以把嵌套调用展开：
 
-通过写一个辅助函数， 可以把嵌套调用展开：
 class Vehicle {}
 let FooMixin = (Superclass) => class extends Superclass {
     foo() {

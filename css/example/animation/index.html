@@ -3,10 +3,50 @@
 <body>
     <div class="fade-out"></div>
     <div class="fade-out"></div>
+    <div class="translate-single"></div>
+    <div class="translate-double"></div>
+    <div class="skew">Skew</div>
+    <div class="changed">Changed</div>
 </body>
 
 </html>
 <style lang="text/css">
+    .skew {
+        width: 100px;
+        height: 100px;
+        background-color: coral;
+        transform: skew(70deg);
+    }
+    
+    .matrix {
+        transform: matrix(1, 2, -1, 1, 180, 80);
+        background-color: pink;
+        width: 100px;
+        height: 100px;
+    }
+    
+    .changed {
+        width: 80px;
+        height: 80px;
+        transform: matrix(1, 2, -1, 1, 80, 80);
+        background-color: pink;
+    }
+    
+    .translate-single {
+        width: 100px;
+        height: 100px;
+        background-color: aqua;
+        transform: translate(100px);
+        /* Equal to: translateX(100px) or translate(100px, 0) */
+    }
+    
+    .translate-double {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        transform: translate(100px, 100px);
+    }
+    
     .fade-in {
         animation: fadeIn 2s 1s ease-in;
         width: 200px;

@@ -87,5 +87,83 @@ fill-mode 有如下属性值：
 - inherit:
 
 # transform
-## translate
-## rotate
+
+
+## translate translateX translateY (平面上下位移) 参数可以是具体单位也可以是百分比
+```css
+.translate-single {
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    transform: translate(100px);
+    /* Equal to: translateX(100px) or translate(100px, 0) */
+}
+
+.translate-double {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    transform: translate(100px, 100px);
+}
+
+.translate-y {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    transform: translateY(50%);
+}
+
+```
+
+## rotate 
+```css
+.rotate0{
+    transform:rotate(0);
+}
+.rotate90{
+    transform:rotate(90deg); /* Equal to rotateZ(90deg) */
+}
+.rotate-turn{
+    transform:rotate(0.25turn);
+}
+.rotate-rad {
+    transform:rotate(3.14rad);
+}
+```
+
+## scale 
+```css
+.scal2{
+    transform:scale(2);/* 物体放大（2x,2y）两倍 */
+}
+.scalx0.5{
+    transform:scaleX(0.5);/* 物体宽缩小一倍（0.5x,1y） */
+}
+.scalx0.5{
+    transform:scaleY(2);/* 物体高放大一倍（x,2y） */
+}
+```
+
+## matrix:
+matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
+```html
+<div>Normal</div>
+<div class="changed">Changed</div>
+```
+```css
+div {
+  width: 80px;
+  height: 80px;
+  background-color: skyblue;
+}
+
+.changed {
+  transform: matrix(1, 2, -1, 1, 80, 80);/* matrix(scalX(1),skewX(2deg),skewY(-1deg),scalY(1),translateX(80),translateY(80))*/
+  background-color: pink;
+}
+```
+
+## skew 在x，y上的倾斜程度
+skew(ax),skew(ax, ay)
+
+# transation

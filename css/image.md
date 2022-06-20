@@ -1,3 +1,20 @@
+# filter
+- url :图片的相对路径
+- blur:图像模糊效果
+```css
+.blur5{
+    filter: blur(5px);
+}
+```
+- contrast :对比度
+- grayscale:灰度
+- hue-rotate:色相旋转
+- drop-shadow:阴影（与box-shadow的区别？drop-shadow为图片服务，可以让图片周围投上阴影而box-shadow给矩形的边投上阴影）
+```css
+.drop-shadow-image{
+    filter: drop-shadow(16px 16px 20px red) invert(75%);
+}
+```
 # background-position[背景图]
 background-position 属性设置背景图像的起始位置。可以依据background-position属性来展现雪碧图中不同的icon. 
 
