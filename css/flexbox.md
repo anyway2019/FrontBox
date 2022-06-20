@@ -1,5 +1,4 @@
-# ```flexbox```
-使用场景？
+# flexbox
 # flex容器属性
 - ```flex-wrap```:内容超出容器是否换行 wrap(换行第一行在上) nowrap(不换行) wrap-reverse(换行第一行在下)
 - ```flex-direction```: row(水平) row-reverse(水平右向左排列) column(垂直) column-revers(垂直下到上)
