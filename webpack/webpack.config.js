@@ -1,6 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
     mode: "development",
     entry: {
@@ -15,13 +15,24 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'output'
         }),
+        new BundleAnalyzerPlugin(),
     ],
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, "dist"),
         clean: true,
     },
     optimization: {
-        runtimeChunk: "single",
+        moduleIds: 'deterministic',
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                }
+            }
+        }
     }
 }
