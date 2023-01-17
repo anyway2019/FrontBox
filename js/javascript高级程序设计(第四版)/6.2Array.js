@@ -92,17 +92,134 @@ console.log(valueslist); //[ 'red', 'yellow', 'new one', 'another one' ]
 for (const [index, value] of demos.entries()) {
     console.log(index, value);
 }
-//复制和填充 copyWithin() fill()
+//复制和填充  fill()  copyWithin()
+let indexs = [];
+
+indexs.fill(6);
+console.log(indexs); //[]
+
+indexs.fill(6, 0, 5);
+console.log(indexs); //[]
+
+indexs = Array(5).fill(0);
+console.log(indexs); //[0,0,0,0,0]
+
+indexs.fill(6);
+console.log(indexs); //[6,6,6,6,6]
+
+indexs.fill(7, 4, 999);
+console.log(indexs); //[ 6, 6, 6, 6, 7 ]
+let ints, reset = () => ints = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+reset();
+ints.copyWithin(5);
+console.log(ints);
+reset();
+ints.copyWithin(0, 5);
+console.log(ints);
+reset();
+ints.copyWithin(4, 0, 3);
+console.log(ints);
+reset();
+ints.copyWithin(2, 0, 6);
+console.log(ints);
+reset();
+ints.copyWithin(-4, -7, -3);
+console.log(ints);
+//fill 与 copyWithin 索引部分可以用就值复制或填充可用部分
 
 //转换方法 toLocalString toString 
-
+let localArray = [{
+    value: 'name',
+    toLocaleString() {
+        return 'localname';
+    },
+    toString() {
+        return 'name';
+    }
+}]
+console.log(localArray.toLocaleString()); //localname
 //stack push pop
-
+let stack = [];
+stack.push(1);
+stack.push(2);
+stack.push(3);
+console.log(stack.pop()); //3
 //queue shift unshift
-
+let queue = [];
+queue.push(1);
+queue.push(2);
+queue.push(3);
+console.log(queue.shift()); //1
 // 排序 reverse sort
+let needReverse = [1, 2, 3, 4];
+console.log(needReverse.reverse()); //[ 4, 3, 2, 1 ]
+console.log(needReverse); //[ 4, 3, 2, 1 ]
 
-//数组操作方法 concat splice slice 
+let sortArray = [1, 5, 15, 25, 33];
+console.log(sortArray.sort()); //[1,15,25,33,5] 字符串比较
+function compare(x, y) {
+    if (x > y) {
+        return 1;
+    } else if (x < y) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+console.log(sortArray.sort(compare)); //[1, 5, 15, 25, 33]
+console.log(sortArray); //[1, 5, 15, 25, 33]
+console.log(sortArray.sort((x, y) => y - x));
+
+//数组操作方法 concat  slice splice
+let a1 = [1, 2, 3];
+let a2 = [4, 5, 6];
+console.log(a1.concat(a2)); //[ 1, 2, 3, 4, 5, 6 ]
+console.log(a1); //[ 1, 2, 3 ]
+console.log(a2); //[ 4, 5, 6 ]
+console.log(a1.concat(2).concat([
+    [1, 8, 3],
+    [2, 4, 6]
+])); //[ 1, 2, 3, 2, [ 1, 8, 3 ], [ 2, 4, 6 ] ]
+//concat有一个参数【Symbol.isConcatSpreadable】可以强制拉平数组也可以禁用这一特性
+a1[Symbol.isConcatSpreadable] = false;
+console.log(a2.concat(a1)); //[ 4, 5, 6, [ 1, 2, 3, [Symbol(Symbol.isConcatSpreadable)]: false ] ]
+let a3 = {
+    [Symbol.isConcatSpreadable]: true,
+    0: 4,
+    1: 5,
+    length: 2
+};
+console.log(a2.concat(a3)); //[ 4, 5, 6, 4, 5 ]
+
+let b1 = [1, 2, 3, 4, 5, 6];
+console.log(b1.slice(2)); //[3,4, 5, 6]
+console.log(b1); //[1, 2, 3, 4, 5, 6];
+
+console.log(b1.slice(1, 2)); //[2]
+console.log(b1.slice(-2, -1)); //[5]
+let b2 = [{ name: 'leery' }, { name: 'faaccy' }];
+let b3 = b2.slice(1);
+b3.forEach(e => {
+    e.name = 'test';
+});
+console.log(b3); //[ { name: 'test' } ]
+console.log(b2); //[ { name: 'leery' }, { name: 'test' } ]
+
+//splice 删除 替换 插入
+let del = [1, 2, 3, 4, 5, 6];
+del.splice(1, 1);
+console.log(del); //[ 1, 3, 4, 5, 6 ]
+del.splice(1, 2);
+console.log(del); // 1, 5, 6 ]
+
+del.splice(1, 1, 1, 2, 3, 4);
+console.log(del); //[ 1, 1, 2, 3, 4, 6 ]
+
+del.splice(1);
+console.log(del); //[1]
+
+del.splice(1, 0, 2, 3, 4, 5, 6);
+console.log(del);
 
 //query 严格相等 断言函数 find findIndex 
 const evens = [2, 4, , 6];
@@ -119,3 +236,13 @@ const res = evens.filter((cur, index, array) => {
 });
 console.log(res);
 //归并 reduce reduceRight
+let seq = [1, 2, 3, 4, 5, 6];
+seq.reduce((pre, cur, index, arr) => {
+    console.log(pre, cur, index, arr);
+    return cur;
+}, 0);
+
+seq.reduceRight((pre, cur, index, arr) => {
+    console.log(pre, cur, index, arr);
+    return cur;
+}, 0);
