@@ -104,7 +104,24 @@ location.reload(true); //重新从服务器加载页面
 
 
 //12.4 screen
+screen.width; //屏幕宽度
+screen.height; //屏幕高度
+screen.orientation; //屏幕朝向
 
 //12.5 history
 //12.5.1 导航
 //12.5.2 历史状态管理
+history.go(-1); //-1 0 1
+history.forward(); //history.go(1)
+history.back(); //history.go(-1)
+let stateObj = { foo: 'bar' }; //500k-1M 阈值限制
+history.pushState({}, 'title', "biz.html"); //新增一条历史记录
+history.replaceState({}, 'title', "biz.html"); //不会创建历史揭露只会覆盖当前的状态
+//页面后退时会触发popstate事件
+window.addEventListener('popstate', (e) => {
+    let state = e.state;
+    if (state) { //第一次加载时状态是null值
+        //....
+    }
+});
+//pushState与replaceState方法对应的逻辑地址要对应一个服务器物理URL，否则404
