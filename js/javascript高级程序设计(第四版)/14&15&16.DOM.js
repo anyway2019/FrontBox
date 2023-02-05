@@ -96,7 +96,7 @@ observer.observe(observedDiv, { attributes: true });
 //subtree 观察子树
 //attributes 属性
 //attributeFilter 要观察的属性数组['foo','bar']
-//attributeOldValue 是否记录变化之前的属性值 record.oldValue
+//attributeOldValue 是否记录变化之前的属性值 (record)=>record.oldValue
 //characterData 观察字符串 textContent要比innerText标准 innerText有兼容性问题
 //characterDataOldValue 是否记录变化之前的字符串
 //childList 观察子节点
@@ -255,4 +255,4 @@ console.log(myDiv.innerText);
 //元素不可见的情况下，将其滚动到窗口或包含窗口中，使其可见；如果已经在视口中可见，则这个方法
 //什么也不做。如果将可选的参数 alingCenter 设置为 true，则浏览器会尝试将其放在视口中央。 Safari、
 //Chrome 和 Opera 实现了这个方法
-//16
+//16.2
