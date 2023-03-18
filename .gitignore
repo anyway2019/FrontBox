@@ -1,3 +1,4 @@
 webpack/node_modules
 webpack/dist
 webpack/package-lock.json
+.vscode/settings.json
