@@ -1,0 +1,273 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <span v-bind:class="classObject" :style="{color:'red'}">
+                鼠标悬停几秒钟查看此处动态绑定的提示信息！
+              </span>
+        <h2>{{fullName | capitalize}}</h2>
+        <h2>{{firstName}}</h2>
+        <h2>{{lastName}}</h2>
+        <input v-model="fullName">
+        <h1 v-if="awesome">Vue is awesome!</h1>
+        <h1 v-else>ob no emoji</h1>
+        <template v-if="loginType === 'username'">
+                <label>Username</label>
+                <input placeholder="Enter your username" key="username-input">
+              </template>
+        <template v-else>
+                <label>Email</label><!-- label 没有key值仍然会被重新渲染 -->
+                <input placeholder="Enter your email address" key="email-input">
+              </template>
+        <button v-on:click.prevent="onclick">change</button>
+        <div id="watch-example">
+            <p>
+                Ask a yes/no question:
+                <input v-model="question">
+            </p>
+            <p>{{ answer }}</p>
+            <input v-model="testObj.name" key="test-obj">
+            <p>{{ testObj.name }}</p>
+            <p>{{ testObj.age }}</p>
+        </div>
+        <ul id="v-for-object" class="demo">
+            <li v-for="(value,index) in testArray">
+                {{ name }}:{{value}}:{{index}}
+            </li>
+        </ul>
+
+        <div id="todo-list-example">
+            <form v-on:submit.prevent="addNewTodo">
+                <label for="new-todo">Add a todo</label>
+                <input v-model="newTodoText" id="new-todo" placeholder="E.g. Feed the cat">
+                <button>Add</button>
+            </form>
+            <ul id="oberve">
+                <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+            </ul>
+        </div>
+        <input :value="message" @input="$emit('input',$event.target.value)" />
+        <div id="demo">
+            <button v-on:click="show = !show">
+                  Toggle
+                </button>
+            <transition name="fade">
+                <p v-if="show">hello</p>
+            </transition>
+        </div>
+        <input v-focus>
+    </div>
+    <script>
+        Vue.component('todo-item', {
+            template: '\
+                        <li>\
+                        {{ title }}\
+                        <button v-on:click="$emit(\'remove\')">Remove</button>\
+                        </li>\
+                    ',
+            props: ['title']
+        });
+        var app = new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    message: `${new Date().toLocaleDateString()} loaded`,
+                    isActive: true,
+                    name: '',
+                    error: null,
+                    show: false,
+                    awesome: false,
+                    loginType: 'username',
+                    firstName: 'ls',
+                    lastName: 'shuo',
+                    question: '',
+                    answer: 'I cannot give you an answer until you ask a question!',
+                    testObj: {
+                        name: 'lishuo',
+                        age: 18
+                    },
+                    testArray: [1, 2, 3, 4, 5],
+                    newTodoText: '',
+                    todos: [{
+                        id: 1,
+                        title: 'Do the dishes',
+                    }, {
+                        id: 2,
+                        title: 'Take out the trash',
+                    }, {
+                        id: 3,
+                        title: 'Mow the lawn'
+                    }],
+                    nextTodoId: 4
+                }
+            },
+            created: function() {
+                this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+            },
+            mounted: function() {
+                var target = document.getElementById('oberve');
+                console.log(123, target);
+                var oberve = new MutationObserver(this.handler);
+                var config = {
+                    subtree: true,
+                    childList: true,
+                    attribute: true
+                };
+                oberve.observe(target, config);
+            },
+            methods: {
+                handler: function(list, o) {
+                    for (let o of list) {
+                        console.log(o.type);
+                    }
+                },
+                addNewTodo: function() {
+                    this.todos.push({
+                        id: this.nextTodoId++,
+                        title: this.newTodoText
+                    })
+                    this.newTodoText = ''
+
+                },
+                onclick: function() {
+                    this.loginType = this.loginType === 'username' ? '' : 'username'
+                    this.testObj = this.loginType === 'username' ? {
+                        age: 18,
+                        name: 'ls'
+                    } : {
+                        name: 'lishuo',
+                        age: 18,
+                    };
+                    this.testArray[2] = 99;
+                },
+                getAnswer: function() {
+                    if (this.question.indexOf('?') === -1) {
+                        this.answer = 'Questions usually contain a question mark. ;-)'
+                        return
+                    }
+                    this.answer = 'Thinking...'
+                    var vm = this
+                    axios.get('https://yesno.wtf/api')
+                        .then(function(response) {
+                            vm.answer = _.capitalize(response.data.answer)
+                        })
+                        .catch(function(error) {
+                            vm.answer = 'Error! Could not reach the API. ' + error
+                        })
+                }
+            },
+            computed: {
+                classObject: function() {
+                    return {
+                        active: this.active && !this.error,
+                        'text-danger': this.error
+                    }
+                },
+                fullName: {
+                    get: function() {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set: function(newVal) {
+                        const arr = newVal.split(' ');
+                        this.firstName = arr[0];
+                        this.lastName = arr[1];
+                    }
+                }
+            },
+            directives: {
+                focus: {
+                    bind: function() {
+
+                    },
+                    update: function() {
+
+                    },
+                    componentUpdated: function() {
+
+                    },
+                    inserted: function(el) {
+                        el.focus();
+                    },
+                    unbind: function() {
+
+                    }
+                }
+            },
+            filters: {
+                capitalize: function(v) {
+                    if (!v) return '';
+                    let value = String(v);
+                    return value.charAt(0).toUpperCase() + value.slice(1);
+                }
+            },
+            watch: {
+                fullName: function(n, o) {
+                    console.log(n, o);
+                    this.testArray[2] = n;
+                },
+                testArray: function(newObj, oldObj) {
+                    console.log(newObj, oldObj);
+                },
+                question: function(newQuestion, oldQuestion) {
+                    this.answer = 'Waiting for you to stop typing...'
+                    this.debouncedGetAnswer()
+                    console.log(999)
+                },
+                'testObj.name': function(newobj, oldObj) {
+                    console.log(106, newobj);
+                },
+                testObj: {
+                    handler: function(newObj, oldObj) {
+
+                    },
+                    immediate: true,
+                    deep: true
+                }
+            }
+
+        })
+    </script>
+</body>
+
+<style lang="text/css">
+    .active {
+        color: rebeccapurple;
+    }
+    
+    .box {
+        border-style: solid;
+        border-width: 1px;
+        display: block;
+        width: 100px;
+        height: 100px;
+        background-color: #0000FF;
+        transition: all 2s ease-in-out;
+    }
+    
+    .box:hover {
+        background-color: #FFCCCC;
+        width: 200px;
+        margin-right: 100px;
+    }
+    
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+    
+    .fade-enter,
+    .fade-leave-to
+    /* .fade-leave-active below version 2.1.8 */
+    
+    {
+        opacity: 0;
+    }
+</style>
+
+</html>
