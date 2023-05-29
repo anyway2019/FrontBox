@@ -350,6 +350,7 @@ var findDeep = function(root){
     }
     return deep;
 }
+
 //给定数值的最小字符串
 var minString = function(n,k){
    var v = k-n+1;
@@ -392,7 +393,8 @@ var isValidSudoku = function(board) {
     }
     return true;
 };
-//
+
+
 var validString = function(s){
     let max =0;
     let min =0;
@@ -412,6 +414,7 @@ var validString = function(s){
         }
     }
 }
+
 // 冒泡排序
 var bubbleSort = function(arr){
     //[1,2,3]
@@ -426,7 +429,8 @@ var bubbleSort = function(arr){
         }
     }
 }
-//
+
+//前端基于帧率实现的高精度定时器
 let startTime = performance.now();
 const loop = function(timer){
     requestAnimationFrame(loop);

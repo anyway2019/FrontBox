@@ -1002,20 +1002,24 @@ function swap(A, i, j) {
    }
 
    class EventBus{
+
        constructor(){
            this.events = Object.create(null);
        }
+
        on(name,fn){
         if(!this.events[name]){
             this.events[name]=[];
         }
         this.events[name].push(fn);
        }
+
        emit(name,...args){
        this.events[name] && this.events[name].forEach((fn)=>{
             fn(...args);
         });
        }
+
        off(name,cb){
            if(this.events[name]){
                 const index = this.events[name].findIndex((fn)=>fn===cb);
@@ -1025,6 +1029,7 @@ function swap(A, i, j) {
                 }
            }
        }
+
        once(name,fn){
            const callback = (...args)=>{
             fn(...args);
@@ -1035,7 +1040,7 @@ function swap(A, i, j) {
    }
 
 
-function debounce(fuc,wait){
+function debounce(func,wait){
     var timeout;
     return function(){
         var context = this;
@@ -1044,7 +1049,7 @@ function debounce(fuc,wait){
             clearTimeout(timeout);
         }
         timeout = setTimeout(()=>{
-            fuc.apply(context,args)
+            func.apply(context,args)
         },wait);
     }
 }
