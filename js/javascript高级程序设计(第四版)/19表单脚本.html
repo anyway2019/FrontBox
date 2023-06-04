@@ -1,0 +1,26 @@
+<html>
+    <body>
+        <input type="text" size="20" id="textbox"/>
+        <script>
+            var textbox = document.getElementById('textbox');
+            textbox.value = "Hello world!";
+            var range = textbox.createTextRange();
+            // 选择所有文本
+            range.collapse(true);//把范围折叠到文本框的开始
+            range.moveStart("character", 0);
+            range.moveEnd("character", textbox.value.length); // "Hello world!"
+            range.select();
+            // 选择前 3 个字符
+            range.collapse(true);
+            range.moveStart("character", 0);
+            range.moveEnd("character", 3);
+            range.select(); // "Hel"
+            // 选择第 4~6 个字符
+            range.collapse(true);
+            range.moveStart("character", 4);
+            range.moveEnd("character", 6);
+            range.select(); // "o w"
+        </script>
+        </script>
+    </body>
+</html>

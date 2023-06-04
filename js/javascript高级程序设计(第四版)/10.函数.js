@@ -81,7 +81,7 @@ function Add(...nums) {
 // }
 
 //函数声明和函数表达式
-var f = function() {
+var f = function () {
 
 };
 //函数声明
@@ -144,7 +144,7 @@ function outerFunction() {
 }
 //闭包：闭包指的是那些引用了另一个函数作用域中变量的函数，通常是在嵌套函数中实现的。
 function createCompare(name) {
-    return function(o1, o2) {
+    return function (o1, o2) {
         let v1 = o1[name];
         let v2 = o2[name];
         if (v1 < v2) {
@@ -161,7 +161,7 @@ function createCompare(name) {
 //私有变量：闭包 特权方法
 function Person() {
     let name = 'name';
-    return function() {
+    return function () {
         return name;
     }
 }
@@ -173,20 +173,31 @@ function Person() {
         return name;
     }
     //特权方法
-    this.GetName = function() {
+    this.GetName = function () {
         console.log('get name');
         return sayName();
     }
 }
 
 function Person(name) {
-    this.getName = function() {
+    this.getName = function () {
         return name;
     };
-    this.setName = function(value) {
+    this.setName = function (value) {
         name = value;
     }
 }
 //10.16.1静态私有变量：解决上述通过构造函数定义函数访问私有变量会导致每次实例化都会创建新的方法和变量
 //2.模块模式
 //3.模块增强
+
+//私有变量
+class Device {
+    #readHandle;
+    constructor() {
+        super();
+    }
+    get ReadHandle() {
+        return this.#readHandle;
+    }
+}
