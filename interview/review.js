@@ -1,8 +1,3 @@
-
-Promise.reject(1)
-.catch(err => {return err})
-.then(e => {console.log(e)})
-
 //2个栈实现队列
 //[1,2,3,4,5]
 var queue = {
@@ -107,7 +102,7 @@ function curry(fn, args) {
     }
 }
 
-//手写寄生组合式继承（一次手撕三个，不愧是字节）
+//手写寄生组合式继承
 function object(o){
     function f(){};
     f.prototype = o;
@@ -772,25 +767,6 @@ var reverseTreeNode = function(node){
 //最短距离 for
 //输入：s = "loveleetcode", c = "e"
 //输出：[3,2,1,0,1,0,0,1,2,2,1,0]
-var findNeareast = function(nums,c){
-    let pre = Math.MIN_SAFE_INTEGER;
-    let res = [];
-    for(let i=0;i<nums.length;++i){
-        if(nums.charAt(i) === c){
-            pre = i;
-        }
-        res[i] = i-pre;
-    }
-
-    for(let j=nums.length-1;j<nums.length;++j){
-        if(nums.charAt(j) === c){
-            pre = i;
-        }
-        res[i] = Math.max(res[i],pre-i);
-    }
-    return res;
-}
-
 var findNeareast = function(s,c){
     const ans=[];
     let pre = Number.MIN_SAFE_INTEGER;
@@ -886,38 +862,6 @@ var finbona = function(n){
     }
     return r
 }
-//.finkMax
-var findKMax = function(nums,k){
-
-}
-var quickSort = function(nums){
-
-}
-
-var random = function(arr,l,r){
-    var p =  Math.random()*(r-l+1)+l;
-    var temp = arr[r];
-    arr[r] = arr[p];
-    arr[p] = temp;
-
-}
-var swap = function(p,q){
-
-}
-
-var partion = function(arr,l,r){
-    const pivot = Math.floor((l+r)/2);
-    let arrl = [];
-    let arrR = [];
-    for(let i=l;i<=r;++i){
-        if(nums[i]<nums[pivot]){
-            arrl.push(nums[i]);
-        }else{
-            arrR.push(nums[i]);
-        }
-    }
-}
-
 
 function swap(A, i, j) {
     const t = A[i];
