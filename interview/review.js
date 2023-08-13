@@ -56,179 +56,89 @@ findRange([0, 1, 2, 4, 5, 7, 13, 15, 16]);
 
 //同步任务 宏观任务和微观任务
 async function async1() {
-  console.log("async1 start"); //2
+  console.log("2"); //2
   await async2();
-  console.log("async1 end"); //6
+  console.log("6"); //6
   async function async2() {
-    console.log("async2"); //3
+    console.log("3"); //3
   }
 }
 
-console.log("script start"); //1
+console.log("1"); //1
 
 setTimeout(function () {
-  console.log("setTimeout"); //8
+  console.log("8"); //8
 }, 0);
 
 async1();
 
+//output: 1 2 3 6 8
+
 new Promise(function (resolve) {
-  console.log("promise1"); //4
+  console.log("4"); //4
+  for (var i = 100; i < 1000000; i++) {
+    console.log(i);
+  }
   resolve();
 }).then(function () {
-  console.log("promise2"); // 7
+  console.log("7"); // 7
 });
-console.log("script end"); //5
+console.log("5"); //5
+
+//output: 4， 100~ 1000000, 5，7
 
 //函数柯里化。
-var curry = function (fn) {
-  const len = this.length;
-  let args = [].slice.call(arguments, 1);
-  return function () {
-    let subargs = [].slice.call(arguments);
-    let _args = [...args, ...subargs];
-    if (_args.length < len) {
-      return curry(fn, _args);
+const curry = function (fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
     } else {
-      fn.apply(this, _args);
+      return function (...args2) {
+        return curried.apply(this, args.concat(args2));
+      };
     }
   };
 };
 
-function curry(fn, args) {
-  var length = fn.length;
-
-  args = args || [];
-
-  return function () {
-    var _args = args.slice(0),
-      arg,
-      i;
-
-    for (i = 0; i < arguments.length; i++) {
-      arg = arguments[i];
-
-      _args.push(arg);
-    }
-    if (_args.length < length) {
-      return curry.call(this, fn, _args);
-    } else {
-      return fn.apply(this, _args);
-    }
-  };
+function add(a, b, c) {
+  return a + b + c;
 }
 
-//手写寄生组合式继承
-function object(o) {
-  function f() {}
-  f.prototype = o;
-  return new f();
-}
-function prototype(sub, parent) {
-  let prototype = object(parent.prototype);
-  prototype.constuctor = sub;
-  sub.prototype = prototype;
-}
-
-function prototype(sub, parent) {
-  var obj = Object.create(parent.prototype);
-  obj.constuctor = sub;
-  sub.prototype = obj;
-}
-
-const address = [
-  {
-    addressId: 1,
-    addressName: "北京市",
-    subDistrict: [
-      {
-        addressId: 11,
-        addressName: "海淀区",
-        subDistrict: [
-          {
-            addressId: 111,
-            addressName: "中关村",
-          },
-        ],
-      },
-      {
-        addressId: 12,
-        addressName: "朝阳区",
-      },
-    ],
-  },
-  {
-    addressId: 2,
-    addressName: "河北省",
-  },
-];
-
-function convert(arr) {
-  let newArr = [];
-  for (let i = 0; i < arr.length; i++) {
-    let obj = arr[i];
-    let newObj = {};
-    for (const key in obj) {
-      const newKey = key.replace(/([A-Z])/g, "_$1").toLowerCase();
-      if (Array.isArray(obj[key])) {
-        newObj[newKey] = convert(obj[key]);
-      } else {
-        newObj[newKey] = obj[key];
-      }
-    }
-    newArr.push(newObj);
-  }
-  return newArr;
-}
-
-function quickSort(arr, l, r) {
-  if (l < r) {
-    let q = partionby(arr, l, r);
-    quickSort(arr, low, q - 1);
-    quickSort(arr, q + 1, r);
-  }
-}
-
-function partionby(arr, low, high) {
-  let pivot = arr[high];
-  let i = low - 1;
-  for (let j = low; j < high; j++) {
-    if (arr[j] < pivot) {
-      i++;
-      var temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
-    }
-  }
-}
+let curried = curry(add);
+curried(1)(2)(3); //6
 
 //二分查找
-var midquery = function (nums, k) {
-  let mid = Math.floor(nums.length / 2);
-  if (nums[mid] === k) return mid;
-  if (nums[mid] < k) {
-    return midquery(nums.slice(mid), k);
+function binarySearch(arr, target) {
+  let p = parseInt((arr.length - 1) / 2);
+  if (arr[p] === target) return p;
+  if (arr[p] > target) {
+    return binarySearch(arr.slice(0, p), target);
+  } else {
+    return binarySearch(arr.slice(p), target);
   }
-  if (nums[mid] > k) {
-    return midquery(nums.slice(0, mid), k);
-  }
-};
+}
 
-function binary_search(arr, key) {
-  var low = 0,
-    high = arr.length - 1;
+//不用递归的二分查找
+function binarySearch(arr, target) {
+  let low = 0;
+  let high = arr.length - 1;
+  let p = parseInt((high - low) / 2);
+
   while (low <= high) {
-    var mid = parseInt((high + low) / 2);
-    if (key == arr[mid]) {
-      return mid;
-    } else if (key > arr[mid]) {
-      low = mid + 1;
-    } else if (key < arr[mid]) {
-      high = mid - 1;
-    } else {
-      return -1;
+    p = parseInt((high - low) / 2);
+    if (arr[p] === target) {
+      return p;
+    }
+
+    if (arr[p] < target) {
+      low = p + 1;
+    }
+    if (arr[p] > target) {
+      high = p - 1;
     }
   }
+
+  return -1;
 }
 
 //reduce
@@ -270,7 +180,7 @@ Array.prototype.MyReduce = function (fn, initial) {
   return acc;
 };
 
-//inorder
+//中序遍历
 var inorder = function (treeNode) {
   if (!treeNode) return;
   inorder(treeNode.left);
@@ -291,7 +201,7 @@ var inorderStack = function (treeNode) {
   return res.reverse();
 };
 
-//new
+//new implemention
 var newFactory = function (func) {
   if (typeof func !== "function") {
     throw new TypeError("not a function!");
@@ -302,8 +212,8 @@ var newFactory = function (func) {
   var result = func.call(obj, ...arguments);
   return result && typeof result === "object" ? result : obj;
 };
-//组合继承 组合了 原型链的继承 和 经典继承
 
+//组合继承 组合了 原型链的继承 和 经典继承
 function Parent(name) {
   this.name = name;
 }
@@ -315,6 +225,24 @@ function Child(name, age) {
   Parent.call(this, name); //继承属性
 }
 Child.prototype = new Parent(); //继承方法
+
+//手写寄生组合式继承
+function object(o) {
+  function f() {}
+  f.prototype = o;
+  return new f();
+}
+function prototype(sub, parent) {
+  let prototype = object(parent.prototype);
+  prototype.constuctor = sub;
+  sub.prototype = prototype;
+}
+
+function prototype(sub, parent) {
+  var obj = Object.create(parent.prototype);
+  obj.constuctor = sub;
+  sub.prototype = obj;
+}
 
 //防抖 触发多次以最后一次触发为准n秒后调用触发函数
 var debounce = function (fn, delay, immediate) {
