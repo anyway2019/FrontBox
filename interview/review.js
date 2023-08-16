@@ -141,7 +141,13 @@ function binarySearch(arr, target) {
   return -1;
 }
 
-//reduce
+[1, 2, 3].reduce((acc, cur, index, arr) => {
+  return acc + cur;
+}, 0);
+
+//mock reduce
+//in operation with array depends on its index
+//[,2,3] => 0 in [,2,3]  output: false
 Array.prototype.MyReduce = function (fn, initial) {
   if (!fn || typeof fn !== "function") {
     throw new TypeError("fn not a funtion");
@@ -154,61 +160,38 @@ Array.prototype.MyReduce = function (fn, initial) {
   let k = 0;
   let acc;
   if (!initial) {
-    //[,,,] [,,,3,,4]
     let preset = false;
     while (k < len) {
-      if (this[k] in this) {
+      if (k in this) {
         preset = true;
         break;
       }
       k++;
     }
-    if (!preset) {
-      throw new TypeError("empty with no initial value");
-    }
+    if (!preset) throw new TypeError("empty with no initial value");
     acc = this[k];
   } else {
     acc = initial;
   }
+  console.log(acc);
   //[2,3,,4]
   while (k < len) {
-    if (this[k] in this) {
-      fn(acc, this[k], k, this);
+    if (k in this) {
+      acc = fn(acc, this[k], k, this);
     }
     k++;
   }
   return acc;
 };
-
-//中序遍历
-var inorder = function (treeNode) {
-  if (!treeNode) return;
-  inorder(treeNode.left);
-  console.log(treeNode.val);
-  inorder(treeNode.right);
-};
-var inorderStack = function (treeNode) {
-  if (!treeNode) return;
-  const stack = [];
-  const res = [];
-  stack.push(treeNode);
-  while (stack.length > 0) {
-    const node = stack.pop();
-    res.push(node);
-    stack.push(node.right);
-    stack.push(node.left);
-  }
-  return res.reverse();
-};
+[1, 100].MyReduce((a, b) => a + b); //102
 
 //new implemention
-var newFactory = function (func) {
+var MockNew = function (func) {
   if (typeof func !== "function") {
     throw new TypeError("not a function!");
   }
   var obj = Object.create(null);
   obj._proto_ = func.prototype;
-
   var result = func.call(obj, ...arguments);
   return result && typeof result === "object" ? result : obj;
 };
@@ -300,6 +283,27 @@ var reverseList = function (node) {
     current = next;
   }
   return head;
+};
+
+//中序遍历
+var inorder = function (treeNode) {
+  if (!treeNode) return;
+  inorder(treeNode.left);
+  console.log(treeNode.val);
+  inorder(treeNode.right);
+};
+var inorderStack = function (treeNode) {
+  if (!treeNode) return;
+  const stack = [];
+  const res = [];
+  stack.push(treeNode);
+  while (stack.length > 0) {
+    const node = stack.pop();
+    res.push(node);
+    stack.push(node.right);
+    stack.push(node.left);
+  }
+  return res.reverse();
 };
 
 //promise
@@ -409,161 +413,6 @@ var th = function (x) {
     s = s.slice(0, s.length - 3);
   }
   return s + res;
-};
-
-//new
-var create = function (func) {
-  let obj = Object.create(null);
-  obj._proto_ = func.prototype;
-  var result = func.call(obj);
-  return result && typeof result === "object" ? result : obj;
-};
-
-//组合继承
-function Parent(name) {
-  this.name = name;
-}
-Parent.prototype.sayName = function () {
-  console.log(this.name);
-};
-function Child(age) {
-  this.age = age;
-  Parent.call(this);
-}
-Child.prototype = new Parent();
-
-//节流
-var throttle = function (func, wait) {
-  let pre = 0;
-  return function () {
-    let self = this;
-    let args = arguments;
-    const now = +new Date();
-    const remaining = now - pre;
-    if (remaining > wait) {
-      func.apply(self, args);
-      pre = now;
-    }
-  };
-};
-
-//防抖
-var debounce = function (fn, wait, immediate) {
-  let timer;
-  let result;
-  return function () {
-    let self = this;
-    let args = arguments;
-    if (timer) clearTimeout(timer);
-    if (immediate) {
-      const callNow = !timer;
-      timer = setTimeout(() => {
-        timer = null;
-      }, wait);
-      if (callNow) {
-        result = fn.apply(self, args);
-      }
-    } else {
-      timer = setTimeout(() => {
-        fn.apply(self, args);
-        timer = null;
-      }, wait);
-    }
-  };
-};
-
-//promise
-function Promise(excutor) {
-  let self = this;
-  this.status = "pending";
-  this.resolveCallBack = [];
-  this.rejectCallBack = [];
-  function Resolve(v) {
-    if (self.status === "pending") {
-      self.status = "fulfilled";
-    }
-    for (let i = 0; i < self.resolveCallBack.length; ++i) {
-      self.resolveCallBackp[i].resolve(v);
-    }
-  }
-  function Reject(v) {
-    if (self.status === "pending") {
-      self.status = "rejected";
-    }
-    for (let i = 0; i < self.rejectCallBack.length; ++i) {
-      self.rejectCallBack[i].reject(v);
-    }
-  }
-}
-
-Promise.prototype.then = function (OnResolved, OnRejected) {
-  let promise2;
-  OnResolved =
-    typeof OnResolved === "function"
-      ? OnResolved
-      : function (v) {
-          return v;
-        };
-  OnRejected =
-    typeof OnRejected === "function"
-      ? OnRejected
-      : function (e) {
-          throw e;
-        };
-
-  if (self.status === "fulfilled") {
-    return (promise2 = new Promise((resolve, reject) => {
-      try {
-        const x = OnResolved(self.data);
-        if (x instanceof Promise) {
-          x.then(resolve, reject);
-        }
-        resolve(x);
-      } catch (e) {
-        reject(e);
-      }
-    }));
-  }
-  if (self.status === "rejected") {
-    return (promise2 = new Promise((resolve, reject) => {
-      try {
-        const x = OnRejected(self.data);
-        if (x instanceof Promise) {
-          x.then(resolve, reject);
-        }
-        reject(x);
-      } catch (e) {
-        reject(e);
-      }
-    }));
-  }
-  if (self.status === "pending") {
-    return (promise2 = new Promise((resolve, reject) => {
-      try {
-        self.resolveCallBack.push(function (v) {
-          const x = OnResolved(v);
-          if (x instanceof Promise) {
-            x.then(resolve, reject);
-          }
-          resolve(x);
-        });
-      } catch (e) {
-        reject(e);
-      }
-
-      self.rejects.push(function (e) {
-        try {
-          const x = OnRejected(e);
-          if (x instanceof Promise) {
-            x.then(resolve, reject);
-          }
-          reject(e);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }));
-  }
 };
 
 var trim = function (s) {
@@ -694,21 +543,6 @@ var thou = function (s) {
   return res;
 };
 
-//节流
-var throttle = function (fn, wait) {
-  let pre = 0;
-  return function () {
-    let self = this;
-    let args = arguments;
-
-    const now = +new Date();
-    const remaining = now - pre;
-
-    if (remaining > wait) {
-      fn.apply(self, args);
-    }
-  };
-};
 // reverseTreeNode
 ///  1
 ///2   3
@@ -847,12 +681,6 @@ var finbona = function (n) {
   }
   return r;
 };
-
-function swap(A, i, j) {
-  const t = A[i];
-  A[i] = A[j];
-  A[j] = t;
-}
 
 /**
  *
