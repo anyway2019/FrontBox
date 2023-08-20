@@ -28,9 +28,9 @@ console.log(wrapped.name);
 console.log(wrappedStr2.name);
 //传递参数:无论原始值还是引用值传参都是按照值传递，引用传的是引用副本
 function setName(obj) {
-    obj.name = "Hello world";
-    obj = new Object();
-    obj.name = "faaccy";
+  obj.name = "Hello world";
+  obj = new Object();
+  obj.name = "faaccy";
 }
 var target = {};
 setName(target);

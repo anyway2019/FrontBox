@@ -2,12 +2,12 @@
 //18.1 reqestAnimationFrame
 
 //18.2 基本的画布功能
-let panel = document.getElementById('panel');
+let panel = document.getElementById("panel");
 let context;
-if (panel.getContext) //validate browser support canvas
-{
-    console.log('browser support canvas!');
-    context = drawing.getContext('2d'); //获取2d绘画上下文
+if (panel.getContext) {
+  //validate browser support canvas
+  console.log("browser support canvas!");
+  context = drawing.getContext("2d"); //获取2d绘画上下文
 }
 
 //18.3 2d绘画上下文
@@ -68,34 +68,40 @@ if (panel.getContext) //validate browser support canvas
 let drawing = document.getElementById("drawing");
 // 确保浏览器支持<canvas>
 if (drawing.getContext) {
-    let context = drawing.getContext("2d"),
-        image = document.images[0],
-        imageData, data,
-        i, len, average,
-        red, green, blue, alpha;
-    // 绘制图像
-    context.drawImage(image, 0, 0);
-    // 取得图像数据
-    imageData = context.getImageData(0, 0, image.width, image.height);
-    data = imageData.data;
-    for (i = 0, len = data.length; i < len; i += 4) {
-        red = data[i];
-        green = data[i + 1];
-        blue = data[i + 2];
-        alpha = data[i + 3];
-        // 取得 RGB 平均值
-        average = Math.floor((red + green + blue) / 3);
-        // 设置颜色，不管透明度
-        data[i] = average;
-        data[i + 1] = average;
-        data[i + 2] = average;
-    }
-    // 将修改后的数据写回 ImageData 并应用到画布上显示出来
-    imageData.data = data;
-    context.putImageData(imageData, 0, 0);
+  let context = drawing.getContext("2d"),
+    image = document.images[0],
+    imageData,
+    data,
+    i,
+    len,
+    average,
+    red,
+    green,
+    blue,
+    alpha;
+  // 绘制图像
+  context.drawImage(image, 0, 0);
+  // 取得图像数据
+  imageData = context.getImageData(0, 0, image.width, image.height);
+  data = imageData.data;
+  for (i = 0, len = data.length; i < len; i += 4) {
+    red = data[i];
+    green = data[i + 1];
+    blue = data[i + 2];
+    alpha = data[i + 3];
+    // 取得 RGB 平均值
+    average = Math.floor((red + green + blue) / 3);
+    // 设置颜色，不管透明度
+    data[i] = average;
+    data[i + 1] = average;
+    data[i + 2] = average;
+  }
+  // 将修改后的数据写回 ImageData 并应用到画布上显示出来
+  imageData.data = data;
+  context.putImageData(imageData, 0, 0);
 }
 //18.3.11 合成
 //context.createPattern();
 //18.4 WebGL
 //18.4.1 WebGL Context
-let glContext = drawing.getContext('webgl');
+let glContext = drawing.getContext("webgl");

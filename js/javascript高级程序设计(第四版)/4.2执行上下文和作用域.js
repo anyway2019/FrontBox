@@ -2,26 +2,26 @@
 var color = "blue";
 
 function changeColor() {
-    if (color === "blue") {
-        color = "red";
-    } else {
-        color = "blue";
-    }
+  if (color === "blue") {
+    color = "red";
+  } else {
+    color = "blue";
+  }
 }
 changeColor();
 //作用域链：[[changeColor variable object]]->Global Object
 //局部作用域中定义的变量可用于在局部上下文中替换全局变量
 function changeColor() {
-    let anotherColor = "red";
+  let anotherColor = "red";
 
-    function swapColors() {
-        let temp = anotherColor;
-        anotherColor = color;
-        color = temp;
-        //能访问 color anotherColor temp
-    }
-    swapColors();
-    //能访问 color anotherColor
+  function swapColors() {
+    let temp = anotherColor;
+    anotherColor = color;
+    color = temp;
+    //能访问 color anotherColor temp
+  }
+  swapColors();
+  //能访问 color anotherColor
 }
 changeColor();
 //能访问 color
@@ -31,14 +31,14 @@ changeColor();
 
 //1.作用域链增强
 //try/catch 语句的 catch 块,对 catch 语句而言，则会创建一个新的变量对象，这个变量对象会包含要抛出的错误对象的声明
-//with 
+//with
 function buildUrl() {
-    let query = "?debug=true";
-    with(location) {
-        var url = href + query;
-        //let url = href + query;// url invalid out of with scope
-    }
-    return url;
+  let query = "?debug=true";
+  with (location) {
+    var url = href + query;
+    //let url = href + query;// url invalid out of with scope
+  }
+  return url;
 }
 console.log(buildUrl());
 //2.变量声明
@@ -50,47 +50,45 @@ console.log(buildUrl());
 
 //如果变量未经声明就被初始化了，那么它就会自动被添加到全局上下文:
 function add(num1, num2) {
-    var sum = num1 + num2;
-    return sum;
+  var sum = num1 + num2;
+  return sum;
 }
 let res = add(10, 20);
 //console.log(sum); // error
 console.log(res); //30
 
 function add(num1, num2) {
-    sum = num1 + num2;
-    return sum;
+  sum = num1 + num2;
+  return sum;
 }
 let res1 = add(10, 20);
 console.log(sum); // 30
 
 //var 声明会被拿到函数或全局作用域的顶部，位于作用域中所有代码之前。这个现象叫作“提升” (hoisting）
 var name = "jake";
-//equal to 
+//equal to
 name = "jake";
 var name;
 
 function testHoist() {
-    console.log(ls);
-    var ls = "hello";
+  console.log(ls);
+  var ls = "hello";
 }
 testHoist();
 //let
 /* let 与 var 的另一个不同之处是在同一作用域内不能声明两次。重复的 var 声明会被忽略，而重
 复的 let 声明会抛出 SyntaxError。*/
 {
-    let a = 1;
-    var a = 2; //Uncaught SyntaxError: Identifier 'a' has already been declared
+  let a = 1;
+  var a = 2; //Uncaught SyntaxError: Identifier 'a' has already been declared
 }
 /*let 的行为非常适合在循环中声明迭代变量。使用 var 声明的迭代变量会泄漏到循环外部，这种情
 况应该避免*/
 for (var i = 0; i < 5; ++i) {
-    console.log(i);
+  console.log(i);
 }
 console.log(i);
-for (let j = 0; j < 5; ++j) {
-
-}
+for (let j = 0; j < 5; ++j) {}
 console.log(j); //j is not defined
 /*严格来讲， let 在 JavaScript 运行时中也会被提升，但由于“暂时性死区”（ temporal dead zone）的
 缘故，实际上不能在声明之前使用 let 变量。因此，从写 JavaScript 代码的角度说， let 的提升跟 var
@@ -104,7 +102,7 @@ const a = 1;
 
 /*const 声明只应用到顶级原语或者对象。换句话说，赋值为对象的 const 变量不能再被重新赋值
 为其他引用值，但对象的键则不受限制 */
-const obj = { name: 'ls' };
+const obj = { name: "ls" };
 obj.name = "jojo";
 console.log(obj); //{name:'jojo'}
 /*如果想让整个对象都不能修改，可以使用 Object.freeze()，这样再给属性赋值时虽然不会报错，
@@ -117,20 +115,21 @@ console.log(target);
 var color = "blue";
 
 function getColor() {
-    return color;
+  return color;
 }
 console.log(getColor());
 
 function getColor() {
-    let color = "red";
-    return color;
+  let color = "red";
+  return color;
 }
 console.log(getColor());
 
 function getColor() {
-    let color = "red"; {
-        let color = "grey";
-        return color;
-    }
+  let color = "red";
+  {
+    let color = "grey";
+    return color;
+  }
 }
 console.log(getColor());

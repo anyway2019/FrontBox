@@ -1,18 +1,18 @@
-const worker = new Worker('./worker.js', { name: 'echo worker' });
-console.log('init worker');
+const worker = new Worker("./worker.js", { name: "echo worker" });
+console.log("init worker");
 // 给 1000 毫秒让工作者线程初始化
 setTimeout(() => {
-    worker.postMessage('foo');
-    worker.postMessage('bar');
-    worker.postMessage('hello');
-    setTimeout(() => worker.postMessage('quit'), 0);
+  worker.postMessage("foo");
+  worker.postMessage("bar");
+  worker.postMessage("hello");
+  setTimeout(() => worker.postMessage("quit"), 0);
 }, 1000);
 
 worker.onmessage = ({ data }) => {
-    if (data.includes('quit')) {
-        worker.terminate();
-    }
-    console.log(data);
+  if (data.includes("quit")) {
+    worker.terminate();
+  }
+  console.log(data);
 };
 
 worker.onerror = console.log;
@@ -20,7 +20,7 @@ worker.onerror = console.log;
 //message channel:MessageChannel 真正有用的地方是让两个工作者线程之间直接通信。这可以通过把端口传给
 //另一个工作者线程实现
 const channel = new MessageChannel();
-const factorialWorker = new Worker('./channelWorker.js');
+const factorialWorker = new Worker("./channelWorker.js");
 // 把`MessagePort`对象发送到工作者线程
 // 工作者线程负责处理初始化信道
 factorialWorker.postMessage(null, [channel.port1]);

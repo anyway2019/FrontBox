@@ -196,7 +196,124 @@ var MockNew = function (func) {
   return result && typeof result === "object" ? result : obj;
 };
 
-//组合继承 组合了 原型链的继承 和 经典继承
+//继承：主要围绕着属性的继承和方法的继承
+//1.原型链继承
+function SuperType() {
+  this.property = true;
+}
+SuperType.prototype.getSuperValue = function () {
+  return this.property;
+};
+function SubType() {
+  this.subproperty = false;
+}
+// 继承 SuperType
+SubType.prototype = new SuperType(); //使用父对象实例的继承自上而下，不会让子对象修改到父对象的原型方法或者属性
+SubType.prototype.getSubValue = function () {
+  return this.subproperty;
+};
+let instance = new SubType();
+console.log(instance.getSuperValue()); // true
+
+//问题1：父类的实例属性变成了子类的原型属性在所有的子类实例中共享
+//问题2：子类实例化时不能给父类构造函数传参，或者说在传参的时候会影响到所有子类实例
+
+//2.经典继承
+//解决了原型链的问题诞生
+function SubType(name) {
+  SuperType.call(this, name); //解决了子类不能向父类传参的问题并且不会影响到其他子类实例
+}
+//问题：方法都在构造函数中定义，每次创建实例都会调用一遍方法，无法实现函数复用
+
+//3。组合继承
+//在1的基础上使用2覆盖了原型属性和方法，这样避免了属性的共享问题和子类向父类传参的问题同时也解决了函数没办法复用问题
+//但是导致父类的构造函数使用了两次，一次是在子类的原型上，一次是在子类的构造函数中，如果在父类构造函数里面做了一些耗时初始化操作需要注意
+function SuperType(name) {
+  this.name = name;
+  this.colors = ["red", "blue", "green"];
+}
+SuperType.prototype.sayName = function () {
+  console.log(this.name);
+};
+function SubType(name, age) {
+  SuperType.call(this, name); //第二次调用SuperType()
+  this.age = age;
+}
+SubType.prototype = new SuperType(); //第一次调用SuperType()
+SubType.prototype.sayAge = function () {
+  console.log(this.age);
+};
+let instance1 = new SubType("Nicholas", 29);
+instance1.colors.push("black");
+console.log(instance1.colors); //"red,blue,green,black"
+instance1.sayName(); //"Nicholas";
+instance1.sayAge(); //29
+let instance2 = new SubType("Greg", 27);
+console.log(instance2.colors); //"red,blue,green"
+instance2.sayName(); //"Greg";
+instance2.sayAge(); //27
+
+//使用delete删除color属性后，父类的实例属性变成原型属性的问题又会暴露出来，组合继承只是覆盖了这个原型属性而已
+delete instance2.colors;
+console.log(instance2.colors); //['red', 'blue', 'green']
+delete instance1.colors;
+console.log(instance1.colors); //['red', 'blue', 'green']
+instance1.colors.push("black");
+console.log(instance1.colors); //['red', 'blue', 'green', 'black']
+console.log(instance2.colors); //['red', 'blue', 'green', 'black']
+
+//6.寄生组合继承
+//解决上述方式的父类构造函数调用两次的问题
+//解决方式：通过盗用构造函数继承属性，但使用混合式原型链继承方法。基本思路是不通过调用父类构造函数给子类原型赋值，而是取得父类原型的一个副本。
+//说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。
+function inheritPrototype(subType, superType) {
+  let prototype = object(superType.prototype); // 创建对象
+  prototype.constructor = subType; // 增强对象
+  subType.prototype = prototype; // 赋值对象
+}
+
+function SuperType(name) {
+  this.name = name;
+  this.colors = ["red", "blue", "green"];
+}
+SuperType.prototype.sayName = function () {
+  console.log(this.name);
+};
+function SubType(name, age) {
+  SuperType.call(this, name);
+  this.age = age;
+}
+
+inheritPrototype(SubType, SuperType);
+
+SubType.prototype.sayAge = function () {
+  console.log(this.age);
+};
+
+//4.原型继承
+//于这种情况：你有一个对象，想在它的基础上再创建一个新对象。
+//你需要把这个对象先传给 object()，然后再对返回的对象进行适当修改
+function object(o) {
+  function F() {}
+  F.prototype = o;
+  return new F();
+}
+//这里使不自定义类型，所以就无法形成链，仍然可以通过原型实现对象之间的信息共享即对象的浅复制（shallow copy）
+//标准实现 object.create()
+
+//5.寄生继承
+//在原型继承的基础上增强对象，返回构造函数的新实例
+//承同样适合主要关注对象，而不在乎类型和构造函数的场景。object()函数不是寄生式继承所必需的，任何返回新对象的函数都可以在这里使用。
+//缺点：通过寄生式继承给对象添加函数会导致函数难以重用（每次创建对象都会创建一遍函数），与构造函数模式类似。
+function createAnother(original) {
+  let clone = object(original); // 通过调用函数创建一个新对象
+  clone.sayHi = function () {
+    // 以某种方式增强这个对象
+    console.log("hi");
+  };
+  return clone; // 返回这个对象
+}
+
 function Parent(name) {
   this.name = name;
 }
@@ -209,7 +326,7 @@ function Child(name, age) {
 }
 Child.prototype = new Parent(); //继承方法
 
-//手写寄生组合式继承
+//4.寄生组合式继承
 function object(o) {
   function f() {}
   f.prototype = o;
@@ -227,34 +344,7 @@ function prototype(sub, parent) {
   sub.prototype = obj;
 }
 
-//防抖 触发多次以最后一次触发为准n秒后调用触发函数
-var debounce = function (fn, delay, immediate) {
-  if (typeof fn !== "function") {
-    throw new TypeError("not a function");
-  }
-  let timer;
-  let result;
-  return function () {
-    let context = this;
-    let args = arguments;
-    if (timer) clearTimeout(timer);
-    if (immediate) {
-      var callNow = !timer;
-      timeout = setTimeout(function () {
-        timeout = null;
-      }, wait);
-      if (callNow) result = fn.apply(context, args);
-    } else {
-      timer = setTimeout(() => {
-        fn.apply(context, args);
-        timer = null;
-      }, delay);
-    }
-    return result;
-  };
-};
-
-//节流
+//节流：以固定频率触发函数。适用场景：OnScoll，每隔一段时间触发处理函数
 var throttle = function (fn, wait) {
   let pre = 0;
   return function () {
@@ -266,6 +356,68 @@ var throttle = function (fn, wait) {
     }
   };
 };
+
+var throttle = function (fn, wait) {
+  let pre = 0;
+  return function () {
+    const now = performance.now(); //get current time
+    const remaining = wait - Math.max(now - pre, 0); //get the remaining time
+    if (remaining <= 0) {
+      fn.call(this, ...arguments);
+      pre = now;
+    }
+  };
+};
+
+// 但是我有时也希望无头有尾，或者有头无尾，这个咋办？
+// 那我们设置个 options 作为第三个参数，然后根据传的值判断到底哪种效果，我们约定:
+// leading：false 表示禁用第一次执行
+// trailing: false 表示禁用停止触发的回调
+
+function throttle(func, delay, options) {
+  let pre = 0;
+  let context, args, timer;
+  return function () {
+    const now = +new Date();
+    pre = options.leading == false ? now : 0;
+    const remaining = delay - (now - pre);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > delay) {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      func.call(context, args);
+      pre = now;
+      if (!timeout) context = args = null;
+    } else {
+      if (options.trailing) {
+        timer = setTimeout(() => {
+          clearTimeout(timer);
+          timer = null;
+          func.call(context, args);
+          pre = +new Date();
+        }, remaining);
+        if (!timeout) context = args = null;
+      }
+    }
+  };
+}
+
+//防抖：防呆操作类似用户重复点击按钮的操作，多次点击但是只有一次点击有效。适用场景：OnScrollEnd,在停止滑动一段时间后触发处理函数
+function debounce_leading(func, timeout = 300) {
+  let timer;
+  return (...args) => {
+    if (!timer) {
+      func.apply(this, args);
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = undefined;
+    }, timeout);
+  };
+}
 
 //链表翻转
 //1-2-3-4 4-3-2-1
@@ -284,124 +436,6 @@ var reverseList = function (node) {
   }
   return head;
 };
-
-//中序遍历
-var inorder = function (treeNode) {
-  if (!treeNode) return;
-  inorder(treeNode.left);
-  console.log(treeNode.val);
-  inorder(treeNode.right);
-};
-var inorderStack = function (treeNode) {
-  if (!treeNode) return;
-  const stack = [];
-  const res = [];
-  stack.push(treeNode);
-  while (stack.length > 0) {
-    const node = stack.pop();
-    res.push(node);
-    stack.push(node.right);
-    stack.push(node.left);
-  }
-  return res.reverse();
-};
-
-//promise
-function MyPromise() {
-  this.state = "";
-  this.resolves = [];
-  this.rejects = [];
-  this.resolve = function (fn) {
-    if (this.state === "pending") {
-      this.state = "fullfilled";
-    }
-    this.resolves.push(fn);
-  };
-  this.reject = function (fn) {
-    if (this.state === "pending") {
-      this.state = "rejected";
-    }
-    this.rejects.push(fn);
-  };
-  this.then = function (OnResolved, OnRejected) {
-    let self = this;
-    let promise2;
-
-    OnResolved =
-      typeof OnResolved === "function"
-        ? OnResolved
-        : function (res) {
-            return res;
-          };
-    OnRejected =
-      typeof OnRejected === "function"
-        ? OnRejected
-        : function (err) {
-            throw err;
-          };
-
-    if (self.status === "resolved") {
-      return (promise2 = new Promise(function (resolve, reject) {
-        try {
-          const x = OnResolved(self.data);
-          if (x instanceof Promise) {
-            x.then(resolve, reject);
-          } else {
-            resolve(x);
-          }
-        } catch (e) {
-          reject(e);
-        }
-      }));
-    }
-    if (self.status === "rejected") {
-      return (promise2 = new Promise(function (resolve, reject) {
-        try {
-          const x = OnRejected(self.data);
-          if (x instanceof Promise) {
-            x.then(resolve, reject);
-          }
-          reject(x);
-        } catch (e) {
-          reject(e);
-        }
-      }));
-    }
-
-    if (self.status === "pending") {
-      return (promise2 = new Promise((resolve, reject) => {
-        self.resolves.push(function (v) {
-          try {
-            const x = OnResolved(v);
-            if (x instanceof Promise) {
-              x.then(resolve, reject);
-            }
-            resolve(x);
-          } catch (e) {
-            reject(e);
-          }
-        });
-
-        self.rejects.push(function (e) {
-          try {
-            const x = OnRejected(e);
-            if (x instanceof Promise) {
-              x.then(resolve, reject);
-            }
-            reject(e);
-          } catch (e) {
-            reject(e);
-          }
-        });
-      }));
-    }
-
-    return new Promise();
-  };
-  this.catch = function (OnRejected) {
-    return this.then(null, OnRejected);
-  };
-}
 
 //千分位
 var th = function (x) {
@@ -798,58 +832,6 @@ class EventBus {
     };
     this.on(name, callback);
   }
-}
-
-function debounce(func, wait) {
-  var timeout;
-  return function () {
-    var context = this;
-    var args = arguments;
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => {
-      func.apply(context, args);
-    }, wait);
-  };
-}
-
-function debounce(fuc, wait, immediate) {
-  var timeout;
-  var result;
-  var debounced = function () {
-    var context = this;
-    var args = arguments;
-    if (timeout) clearTimeout(timeout);
-    if (immediate) {
-      var callNow = !timeout;
-      timeout = setTimeout(() => {
-        timeout = null;
-      }, wait);
-      if (callNow) result = fuc.apply(context, args);
-    } else {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        fuc.apply(context, args);
-      }, wait);
-    }
-    return result;
-  };
-  return debounced;
-}
-
-function throttle(func, wait) {
-  let pre = new Date();
-  return function () {
-    let now = new Date();
-    let context = this;
-    let args = arguments;
-
-    if (now - pre >= wait) {
-      func.apply(context, args);
-      pre = now;
-    }
-  };
 }
 
 var cookieAssign = function (g, s) {

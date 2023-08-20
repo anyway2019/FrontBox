@@ -1,83 +1,84 @@
 //14.1 DOM 层次结构
 //14.1.1 Node type
 //14.1.2 Doucument type
-//14.1.3 Element type 
+//14.1.3 Element type
 //14.1.4 Text type
 //14.1.5 Comment type
 //14.1.6 CDATASection
 //14.1.7 DocumentType type
 //14.1.8 DocumentFragment(11)
 let fragment = document.createDocumentElement();
-let ul = document.getElementById('myList'); //<ul id="myList"></ul>
+let ul = document.getElementById("myList"); //<ul id="myList"></ul>
 
 for (let i = 0; i < 3; ++i) {
-    let li = document.createElement('li');
-    li.appendChild(document.createTextNode(`Item ${i+1}`));
-    fragment.appendChild(li);
+  let li = document.createElement("li");
+  li.appendChild(document.createTextNode(`Item ${i + 1}`));
+  fragment.appendChild(li);
 }
 ul.appendChild(fragment); //render once
 //14.1.9 Attr type(2)
-let element = document.getElementById('demo');
-let attrKey = document.createAttribute('key');
-attrKey.value = 'value';
+let element = document.getElementById("demo");
+let attrKey = document.createAttribute("key");
+attrKey.value = "value";
 element.setAttributeNode(attrKey);
 
 //14.2 DOM script
 //14.2.1 dynamic script
-let script = document.createElement('script');
-script.src = 'foo.js';
+let script = document.createElement("script");
+script.src = "foo.js";
 document.body.appendChild(script);
 //14.2.2 dynamic style
 //link
-let link = document.createElement('link');
-link.rel = 'stylesheet';
-link.type = 'text/css';
-link.href = 'styles.css';
-let head = document.getElementsByTagName('head')[0];
+let link = document.createElement("link");
+link.rel = "stylesheet";
+link.type = "text/css";
+link.href = "styles.css";
+let head = document.getElementsByTagName("head")[0];
 head.appendChild(link);
 //style
-let style = document.createElement('style');
-style.type = 'text/css';
+let style = document.createElement("style");
+style.type = "text/css";
 style.appendChild(document.createTextNode("body{background-color:red}"));
-let headElement = document.getElementsByTagName('head')[0];
+let headElement = document.getElementsByTagName("head")[0];
 headElement.appendChild(style);
 //IE不兼容上述写法,IE禁止操作style和script节点加入子节点
 //style.style.cssText = "body{background-color:red}";
-style.type = 'text/css';
+style.type = "text/css";
 try {
-    style.appendChild(document.createTextNode("body{background-color:red}"));
+  style.appendChild(document.createTextNode("body{background-color:red}"));
 } catch (error) {
-    style.style.cssText = 'body{background-color:red}';
+  style.style.cssText = "body{background-color:red}";
 }
 headElement.appendChild(style);
 //对于 IE，要小心使用 styleSheet.cssText。如果重用同一个<style>元素并设
 //置该属性超过一次，则可能导致浏览器崩溃。同样，将 cssText 设置为空字符串也可能
 //导致浏览器崩溃
 //14.2.3 table
-let table = document.createElement('table');
+let table = document.createElement("table");
 table.border = 1;
 table.insertRow(0);
 table.rows[0].insertCell(0); //0:pos
-table.rows[0].cells[0].appendChild(document.createTextNode('cell 1 0'));
+table.rows[0].cells[0].appendChild(document.createTextNode("cell 1 0"));
 table.rows[0].insertCell(1);
-table.rows[0].cells[1].appendChild(document.createTextNode('cell 1 1'));
+table.rows[0].cells[1].appendChild(document.createTextNode("cell 1 1"));
 table.insertRow(1);
 table.rows[1].insertCell(0);
-table.rows[1].cells[0].appendChild(document.createTextNode('cell 2 0'));
+table.rows[1].cells[0].appendChild(document.createTextNode("cell 2 0"));
 table.rows[1].insertCell(1);
-table.rows[1].cells[1].appendChild(document.createTextNode('cell 2 1'));
+table.rows[1].cells[1].appendChild(document.createTextNode("cell 2 1"));
 document.body.appendChild(table);
 //14.2.4 NodeList
 //NodeList NamedNodeMap HTMLCollection 三个集合类型是实时的，任何文档结构的变化会实时地表现出来，总是代表集合的最新状态
 
-
 //14.3 MutationObserver
 //14.3.1
-let observer = new MutationObserver((record) => { console.log(record); }); //async task
+let observer = new MutationObserver((record) => {
+  console.log(record);
+}); //async task
 observer.observe(document.body, { attributes: true });
-document.body.setAttribute('key', 'value'); //add
-document.body.setAttribute('key', 'value_alter'); //alter
-document.body.removeAttribute('key');
+document.body.setAttribute("key", "value"); //add
+document.body.setAttribute("key", "value_alter"); //alter
+document.body.removeAttribute("key");
 
 //disconnect()
 //observer.disconnect();
@@ -85,7 +86,7 @@ document.body.removeAttribute('key');
 //observer.takeRecords(); 相当于 disconnect 之后将记录列表弹出
 
 //复用: 可以观察多个对象
-let observedDiv = document.getElementById('MyDiv');
+let observedDiv = document.getElementById("MyDiv");
 observer.observe(observedDiv, { attributes: true });
 
 //重用: 调用diconnect()之后，观察者的生命周期没有结束
@@ -109,8 +110,8 @@ observer.observe(observedDiv, { attributes: true });
 //14.3.3 异步回调与记录队列
 //回调会被当作微任务推进微任务队列，如果当前有正在排期的微任务需要挂起
 //在处理回调任务期间，可能又发生多起变化事件，因此回调会收到一个各自MutationRecord数组实例（回调函数退出之后这些实例就不存在了），顺序是进入记录队列的顺序
-document.body.setAttribute('foo', 'first'); //output:[mutationrecord]
-document.body.setAttribute('foo', 'second'); //output:[mutationrecord mutationrecord]
+document.body.setAttribute("foo", "first"); //output:[mutationrecord]
+document.body.setAttribute("foo", "second"); //output:[mutationrecord mutationrecord]
 //14.3.4 性能内存与垃圾回收
 //MutationObserver是DOM3的产物为了DOM2 MutationEvent
 //DOM2 MutationEvent性能差，具体表现
@@ -120,79 +121,78 @@ document.body.setAttribute('foo', 'second'); //output:[mutationrecord mutationre
 //4.兼容性问题
 //DOM3 MutationObserver 通过微任务和记录队列分别解决了MutationEvent的什么问题 TODO
 
-
 //15.DOM Extension
 //15.1.1 querySelector() by Document DocumentFragment Element
 //return Element / throw exception
-let queryBody = document.querySelector('body');
-let queryId = document.querySelector('#id');
-let queryClassName = document.querySelector('.plain');
-let btn = document.querySelector('img.Button');
-//15.1.2 querySelectorAll() 
+let queryBody = document.querySelector("body");
+let queryId = document.querySelector("#id");
+let queryClassName = document.querySelector(".plain");
+let btn = document.querySelector("img.Button");
+//15.1.2 querySelectorAll()
 //return NodeList / throw exception
-let emList = document.getElementById('MyDiv').querySelectorAll('em');
-let strongs = document.querySelectorAll('p strong');
+let emList = document.getElementById("MyDiv").querySelectorAll("em");
+let strongs = document.querySelectorAll("p strong");
 //15.1.3 matches() by Element
-if (document.body.matches('body.page1')) {
-    let page1 = document.body.querySelector('body.page1');
+if (document.body.matches("body.page1")) {
+  let page1 = document.body.querySelector("body.page1");
 }
 //15.2 元素遍历
-let parentNode = document.getElementById('demo');
+let parentNode = document.getElementById("demo");
 let currentNode = parentNode.firstChild;
 while (currentNode) {
-    if (currentNode.nodeType == 1) {
-        console.log(currentNode.nodeName);
-    }
-    if (currentNode == parentNode.lastChild) {
-        break;
-    }
-    currentNode = currentNode.nextSibling;
+  if (currentNode.nodeType == 1) {
+    console.log(currentNode.nodeName);
+  }
+  if (currentNode == parentNode.lastChild) {
+    break;
+  }
+  currentNode = currentNode.nextSibling;
 }
 
 //childElementCount firstElmentChild lastElementChild previousElementSibling nextElementSibling
 let currentElementNode = parentNode.firstElementChild;
 while (currentElementNode) {
-    console.log(currentElementNode.nodeName);
-    if (currentElementNode == parentNode.lastElementChild) {
-        break;
-    }
-    currentElementNode = currentElementNode.nextElementSibling;
+  console.log(currentElementNode.nodeName);
+  if (currentElementNode == parentNode.lastElementChild) {
+    break;
+  }
+  currentElementNode = currentElementNode.nextElementSibling;
 }
 //15.3 html5
 //15.3.1 css
-let selectedElements = document.getElementsByClassName('selected');
+let selectedElements = document.getElementsByClassName("selected");
 
 //15.3.2 焦点管理
 let currentActiveNode = document.activeElement;
 //页面全部加载之前 currentActiveNode为null，之后为body
 let hasFocus = document.hasFocus();
 if (hasFocus) {
-    console.log(document.activeElement.nodeName);
+  console.log(document.activeElement.nodeName);
 } else {
-    var inputNode = document.getElementById('MyInput');
-    inputNode.focus();
-    console.log(document.hasFocus()); //true
+  var inputNode = document.getElementById("MyInput");
+  inputNode.focus();
+  console.log(document.hasFocus()); //true
 }
 //15.3.3 HtmlDocument Extension
 //1.readyState (loading:文档加载中 complete:文档加载完成)
 let documentLoaded = false;
 if (document.readyState == "complete") {
-    documentLoaded = true;
+  documentLoaded = true;
 }
 //before method
 window.onload = (e) => {
-    documentLoaded = true;
+  documentLoaded = true;
 };
 //2.compatMode 渲染模式: CSS1Compat(标准渲染模式) / BackCompat(混杂渲染模式)
 
 //15.3.4 characterSet default:utf-16
 console.log(document.characterSet); //utf-16
-document.characterSet = 'utf-8';
+document.characterSet = "utf-8";
 //15.3.5 自定义数据属性
 //<div id='myDiv' data-myName='name' data-myAge='18'></div>
-let myDiv = document.getElementById('myDiv');
+let myDiv = document.getElementById("myDiv");
 if (myDiv.dataset.myName) {
-    console.log(`myName:${myDiv.dataset.myName}`)
+  console.log(`myName:${myDiv.dataset.myName}`);
 }
 //作用:给元素附加一些额外数据，场景：链接追踪和聚合应用程序标记页面的不同部分，单页面程序常用
 //15.3.6 插入html标记 innerHtml outHtml

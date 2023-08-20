@@ -1,13 +1,14 @@
 class Secret {
-    #secret;//private field
-    constructor(secret) {
-        this.#secret = secret;
-    }
-    get secret() {
-        console.log(this === proxy);//True 此处this代表的是proxy对象，因此this.#secret是不可以被proxy直接访问的
-        return this.#secret.replace(/\d+/, "[REDACTED]");
-    }
-} x
+  #secret; //private field
+  constructor(secret) {
+    this.#secret = secret;
+  }
+  get secret() {
+    console.log(this === proxy); //True 此处this代表的是proxy对象，因此this.#secret是不可以被proxy直接访问的
+    return this.#secret.replace(/\d+/, "[REDACTED]");
+  }
+}
+x;
 
 const aSecret = new Secret("123456");
 // console.log(aSecret.secret); // [REDACTED]
@@ -15,32 +16,32 @@ const aSecret = new Secret("123456");
 const empty = {};
 const proxy = new Proxy(aSecret, empty);
 proxy.x = 1;
-console.log(proxy['secret']); // TypeError: Cannot read private member #secret from an object whose class did not declare it
+console.log(proxy["secret"]); // TypeError: Cannot read private member #secret from an object whose class did not declare it
 
-//This is because when the proxy's get trap is invoked, 
-//the this value is the proxy instead of the original secret, 
+//This is because when the proxy's get trap is invoked,
+//the this value is the proxy instead of the original secret,
 //so #secret is not accessible. To fix this, use the original secret as this:
 
 const proxyWrapper = new Proxy(aSecret, {
-    get(target, property) {
-        return target[property];//use target to access private field
-    }
+  get(target, property) {
+    return target[property]; //use target to access private field
+  },
 });
-console.log(proxyWrapper['secret']);
+console.log(proxyWrapper["secret"]);
 
 //借助Reflect获取对象的原始值，再加以包装
 const target = {
-    foo: 'bar',
-    baz: 'qux'
+  foo: "bar",
+  baz: "qux",
 };
 const handler = {
-    get(target, property, receiver) {
-        let decoration = '';
-        if (property === 'foo') {
-            decoration = '!!!';
-        }
-        return Reflect.get(...arguments) + decoration;
+  get(target, property, receiver) {
+    let decoration = "";
+    if (property === "foo") {
+      decoration = "!!!";
     }
+    return Reflect.get(...arguments) + decoration;
+  },
 };
 const proxy = new Proxy(target, handler);
 console.log(proxy.foo); // bar!!!
@@ -48,15 +49,15 @@ console.log(target.foo); // bar
 
 //不可配置和改变的属性代理是无法改变，如果尝试改变会抛出TypeError
 const invariants = {};
-Object.defineProperty(invariants, 'foo', {
-    configurable: false,
-    writable: false,
-    value: 'bar'
+Object.defineProperty(invariants, "foo", {
+  configurable: false,
+  writable: false,
+  value: "bar",
 });
 const invariantsHandler = {
-    get() {
-        return 'qux';
-    }
+  get() {
+    return "qux";
+  },
 };
 const invariantsProxy = new Proxy(invariants, invariantsHandler);
 console.log(invariantsProxy.foo);
@@ -65,7 +66,7 @@ console.log(invariantsProxy.foo);
 const revocableProxy = Proxy.revocable({}, {});
 revocableProxy.x = 1;
 revocableProxy.revoke();
-revocableProxy.x = 2;//TypeError
+revocableProxy.x = 2; //TypeError
 
 //反射
 // 以下反射方法都会提供状态标记：
@@ -82,7 +83,6 @@ revocableProxy.x = 2;//TypeError
 //  Reflect.deleteProperty()：可以替代 delete 操作符。
 //  Reflect.construct()：可以替代 new 操作符。
 
-
 //安全应用函数
 // 在通过 apply 方法调用函数时，被调用的函数可能也定义了自己的 apply 属性（虽然可能性极小）。
 // 为绕过这个问题，可以使用定义在 Function 原型上的 apply 方法，比如：
@@ -92,10 +92,10 @@ revocableProxy.x = 2;//TypeError
 
 //代理嵌套
 const secondProxy = new Proxy(proxy, {
-    get() {
-        console.log("i am second proxy");
-        return Reflect.get(...arguments);
-    }
+  get() {
+    console.log("i am second proxy");
+    return Reflect.get(...arguments);
+  },
 });
 console.log(secondProxy.secret); // i am second proxy
 
@@ -110,9 +110,7 @@ console.log(userInstanceProxy.id); // undefined
 // 理的实例就会以代理实例作为 WeakMap 的键了：
 const UserClassProxy = new Proxy(User, {});
 const proxyUser = new UserClassProxy(456);
-console.log(proxyUser.id)
-
-
+console.log(proxyUser.id);
 
 //代理与Date
 const dateTarget = new Date();
@@ -124,18 +122,17 @@ proxy.getDate(); // TypeError
 //代理与Map
 const mapTarget = new Map();
 const proxy = new Proxy(mapTarget, {
-    set(target, prop, value) {
-        target[prop] = value;
-    },
-    get(target, prop, receiver) {
-        let ret = Reflect.get(...arguments);
-        if (typeof ret === 'function') {
-            ret = ret.bind(target);
-        }
-        return ret;
+  set(target, prop, value) {
+    target[prop] = value;
+  },
+  get(target, prop, receiver) {
+    let ret = Reflect.get(...arguments);
+    if (typeof ret === "function") {
+      ret = ret.bind(target);
     }
+    return ret;
+  },
 });
 console.log(proxy instanceof Map); // true
-proxy.set('foo', 'bar');
-console.log(proxy.get('foo')); // bar
-
+proxy.set("foo", "bar");
+console.log(proxy.get("foo")); // bar

@@ -1,1 +1,1 @@
-self.onmessage = ({ data }) => self.postMessage('echo:' + data);
+self.onmessage = ({ data }) => self.postMessage("echo:" + data);
