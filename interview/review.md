@@ -87,7 +87,7 @@
 # FLOAT
 
 ```
-0.1 + 0.2 不等于 0.3 的原因 -> 还追问了我小数如何转二进制
+0.1 + 0.2 不等于 0.3 的原因
 我们会用 1 位存储 S，0 表示正数，1 表示负数。
 
 用 11 位存储 E + bias，对于 11 位来说，bias 的值是 2^(11-1) - 1，也就是 1023。
@@ -129,39 +129,16 @@
 
 # 如何解决精度问题？
 
-    乘以10的n次方，再除10的n次方
-
-# DOM, BOM, js 的关系
-
-    bom浏览器接口 DOM 文档树 js
-
-# Flex 布局（flex：1 flex：auto 区别）
-
-    flex: auto 等同于 flex: 1 1 auto flex: 1 或者 flex: 2 等等。它相当于flex: 1 1 0
-
-# 递归跟迭代有什么差别 v
-
-    递归需要执行栈而迭代时将上一次的计算参与下一次计算还是在函数内部完成
-    而且递归存在计算浪费
-    迭代可以保留上次计算
-    递归容易栈溢出
-
-# 如何给图片设置一个兜底图 onerror 回调设置
+乘以 10 的 n 次方，再除 10 的 n 次方
 
 utf-8 编码 -> 常见的汉字字符占几个字节 少数是汉字每个占用 3 个字节，多数占用 4 个字节。
-
-浏览器解析 HTML 的过程。
-html 解析 dom 树 css 解析成 cssom 然后 js 参与 cssom 与 dom 合成 布局树，然后布局树进行绘制和渲染。
-
-//跨域
-简单请求和复杂请求 10min
-
-有遇到过跨域问题吗，讲讲。说了 cors 怎么配置，问的特别细没怎么看过直接寄，还问了 jsonp 说不太了解
 
 # jsonP 原理：通过 script 的 src 实现跨域 只支持 get 方法，通过将前端方法作为参数传送给服务器，然后由服务器注入参数之后再返回，
 
 实现服务器端向客户端通信。
 简单实现：
+
+```JS
 function jsonp(request){
 let container = document.getElementsByTagName('head')[0];
 let script = document.createElement('script');
@@ -172,17 +149,12 @@ function callback(e){
 console.log(e)
 }
 jsonp({url,callback:callback})
-
-# cookie、localStorage、sessionStorage 5min
-
-# 不同域名如何共享 cookie// 设置 domain 为他们的父域名
+```
 
 # 前端路由
 
      hash /history
      HashChangeEvent  go back forward history
-
-# 实现一个 tab 组件 5min
 
 # 外边距塌陷产生的原因 -> 如何解决
 
@@ -217,11 +189,7 @@ jsonp({url,callback:callback})
 
 # watch 主要是用在什么地方：
 
-    异步任务
-
-# prop 和 data 有什么区别，prop 会被 observer 双向绑定吗
-
-# 如果修改 props 页面会展示修改后的结果吗，会有什么警
+异步任务
 
 # 如果 props 是基本类型修改会报警告，页面没有效果 如果是数组或者对象修改会影响到父组件的状态。
 
@@ -280,21 +248,17 @@ promise async&await
 
 promise 状态转变机制
 
-//react
-hook 为什么不能用 if else 因为 hooks 本身由数组或者链表存储的如果使用 if 等会打乱 hook 的调用顺序
+## react
+
+#### hook 为什么不能用 if else 因为 hooks 本身由数组或者链表存储的如果使用 if 等会打乱 hook 的调用顺序
 
 如何避免 hooks 闭包陷阱 ，使用 useRef 只要是对象就可以了
 
-React Fiber
-
-React diff 算法中用 key 比较的过程
-
 用 React 写一个计数器，每过 1s 加 1
 
-//模块化 与工程化
-import require 区别 5min
-CommonJS 的 export 5min
-es6 和 commonJS 模块管理的区别 5min
+```JS
+  //todo
+```
 
 rem 和 vw 的使用场景 移动端适配
 
@@ -328,11 +292,14 @@ update 添加进队列，在下一个 promise.then 中执行队列中的更新�
 
 //2.事件模型 dom
 事件代理：
+
+```JS
 好处：1.只要定义一个监听函数，就能处理多个子节点的事件，而不用在每个<li>节点上定义监听函数。 2.以后再添加子节点，监听函数依然有效
 如何停止传播？
 e.stopPropagation();停止向下传播// 只是停止当前监听函数的，而不腻停止元素的其他事件监听函数
 e.stopImmediatePropagation()//停该元素所有监听函数的触发
 stopImmediatePropagation 方法可以彻底阻止这个事件传播，使得后面绑定的所有 click 监听函数都不再触发。
+```
 
 事件传播
 事件代理
@@ -340,18 +307,24 @@ stopImmediatePropagation 方法可以彻底阻止这个事件传播，使得后�
 事件对象实例方法
 CustomEvent 使用
 
-//3.dom cssom 构建过程 #  
-渲染进程和网络进程共同合作，网络进程将获取的字节流传输到管道上，渲染进程取出一部分文件进行解析
-html 文档-》分词器 ——》node-》dom
-通过分词器将字节流转换为 Token。 token 生成 DOM 节点并构建 dom 树
-
 js 文件对 DOM 树产生的影响（白屏）以及解决方案（首次加载白屏的解决方案）：
+
+```JS
 解析 js 文件需要下载 js 文件，js 文件下载后需要执行 这些动作都会做是 dom 树的生成阻塞，
 解决方案： 1.加快 js 文件下载速度，使用 cdn 加载，
-2.js 文件改成有异步加载的方式（前提是 js 没有 dom 操作使用 defer 和 async） 3.减少 js 文件的体积（treeshaking/uglify）
 
-rem, 计算出 375 的屏幕，1rem,单位出现小数怎么处理 @media screen and (max-wid)
-表明浏览器在处理小数像素的时候并不是直接舍入处理的，元素依旧占据着应有的空间，只是在计算元素尺寸的时候做了舍入处理。
+2.js 文件改成有异步加载的方式（前提是 js 没有 dom 操作使用 defer 和 async）
+
+3.减少 js 文件的体积（treeshaking/uglify）
+```
+
+rem, 计算出 375 的屏幕，1rem,单位出现小数怎么处理 ?
+
+```
+font-size设置为100甚至1000
+```
+
+浏览器在处理小数像素的时候并不是直接舍入处理的，元素依旧占据着应有的空间，只是在计算元素尺寸的时候做了舍入处理。
 
 // 垂直居中  
 方法一：
@@ -385,7 +358,6 @@ rem, 计算出 375 的屏幕，1rem,单位出现小数怎么处理 @media screen
 //8.圣杯 双飞翼
 
 // 闭包原理与作用
-闭包的作用：
 
 ```
 1.访问函数内部变量
@@ -399,15 +371,11 @@ rem, 计算出 375 的屏幕，1rem,单位出现小数怎么处理 @media screen
 函数执行的时创建执行上下文，
 ```
 
-//react 合成事件
+//react 合成事件 与原生事件
 
 如何获取重定向后的 url
 
-//7.跨域 jsonp
-
-//前端优化 浏览器解析过程
-
-前端优化：
+前端优化：内存优化 帧数优化（动画优化） cpu 优化
 
 //无限列表原码阅读
 通过 padding 设置模拟滚动

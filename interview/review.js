@@ -425,14 +425,16 @@ function ListNode(v) {
   this.val = v;
   this.next = null;
 }
-var reverseList = function (node) {
+
+const reverseList = (node) => {
   let head = null;
   let current = node;
+  // 1->null   2->3->4   1->null->2  3->4
   while (current) {
-    const next = current.next;
-    current.next = head;
-    head = current;
-    current = next;
+    let next = current.next; //2->3->4
+    current.next = head; //1-> null
+    head = current; //1->null
+    current = next; //2->3->4
   }
   return head;
 };
@@ -456,15 +458,17 @@ var trim = function (s) {
     .replace(/^\s\s*/g, "");
 };
 
-var deepClone = function (target, map = new Map()) {
-  if (typeof target === "object") {
+let deepClone = function (target, map = new Map()) {
+  if (typeof target == "object") {
     let cloneObj = Array.isArray(target) ? [] : {};
-    if (map.get(target)) {
-      return map.get(target);
+    let result = map.get(target);
+    if (result) {
+      return result;
     }
-    map.set(target, cloneObj);
-    for (let l in target) {
-      cloneObj[l] = deepClone(target[l]);
+    map.set(target, result);
+    //回溯
+    for (let key in target) {
+      cloneObj[key] = deepClone(target[key]);
     }
   } else {
     return target;
@@ -474,25 +478,27 @@ var deepClone = function (target, map = new Map()) {
 //3.v
 var pip = (x) => (y) => (z) => x + y + z;
 
-//4. 12345  456
-var bigNumAdd = function (a, b) {
-  const maxLen = Math.max(a.length, b.length);
-  const padStrA = a.padStart("0", maxLen);
-  const padStrB = b.padStart("0", maxLen);
-  let temp = 0;
+//4. 大数相加
+//12345 + 345
+//12345
+//00345
+var bigAdd = function (a, b) {
+  const max = Math.max(a.length, b.length);
+  a = a.padStart(max, "0");
+  b = b.padStart(max, "0");
+  let remaining = 0;
   let res = "";
-  for (let i = maxLen - 1; i >= 0; --i) {
-    const result = parseInt(padStrA[i]) + parseInt(padStrB[i]);
-    res = (result % 10) + "" + temp;
-    temp = Math.floor(result / 10);
+  for (let i = max - 1; i >= 0; --i) {
+    const left = a[i];
+    const right = b[i];
+    let result = parseInt(left) + parseInt(right) + remaining;
+    res = (result % 10) + res; //90
+    remaining = Math.floor(result / 10); //1
   }
-  if (temp > 0) {
-    res = temp + res;
-  }
-  return parseInt(res);
+  return remaining ? remaining + res : res;
 };
 
-//5.flat
+//5.flat [[2,3,1],1,[[[2]]]] => [2,3,1,1,2]
 var flat = function (arr) {
   arr.reduce((acc, cur) => {
     if (Array.isArray(cur)) {
@@ -508,20 +514,26 @@ var flat = function (arr) {
 var reverse = function (s) {
   let res = "";
   for (let i = 0; i < s.length; ++i) {
-    res += s[s.length - i];
+    res += s[s.length - i]; //res +=s.slice(-i,1-i)
   }
   return res;
 };
 
-//7数组去重复
-var distance = function (arr) {
-  arr.sort().reduce((acc, cur, index, arr) => {
-    if (acc.length === 0 || arr[index - 1] != cur) {
-      acc.push(cur);
-    }
-    return acc;
-  }, []);
+//7.数组去重复
+//[2,2,2,3,2,4] => [2,3,4]
+const distinct = function (arr) {
+  return arr
+    .sort((a, b) => a - b)
+    .reduce((acc, cur, index, arr) => {
+      if (acc.length === 0 || arr[index - 1] != cur) {
+        acc.push(cur);
+      }
+      return acc;
+    }, []);
 };
+
+let arr = [2, 2, 2, 3, 2, 4];
+console.log(distance(arr));
 
 //8.素数
 var isPrime = function (n) {
@@ -561,20 +573,6 @@ var par = function (num) {
     left = Math.floor(left / 10);
   }
   return left === right || left === Math.floor(right / 10);
-};
-
-//千分位分隔符
-var thou = function (s) {
-  let res = "";
-  let num = String(s);
-  while (num.length > 3) {
-    res = "," + num.slice(-3);
-    num = num.slice(0, num.length - 3);
-  }
-  if (num) {
-    res = num + res;
-  }
-  return res;
 };
 
 // reverseTreeNode
@@ -619,24 +617,6 @@ var findNeareast = function (nums, c) {
   return res;
 };
 
-var findNeareast = function (s, c) {
-  const ans = [];
-  let pre = Number.MIN_SAFE_INTEGER;
-  for (let i = 0; i < s.length; ++i) {
-    if (s.charAt(i) === c) {
-      pre = i;
-    }
-    ans[i] = i - pre;
-  }
-  for (let i = s.length - 1; i >= 0; --i) {
-    if (s.charAt(i) === c) {
-      pre = i;
-    }
-    ans[i] = Math.min(ans[i], pre - i);
-  }
-  return ans;
-};
-
 //floor stair 爬楼梯
 var stairs = function (n) {
   let l = 0;
@@ -653,21 +633,6 @@ var stairs = function (n) {
 
 //合并两个排序的链表
 // 1->2->3  1->2->4
-var mergeList = function (l1, l2) {
-  if (!l1) return l2;
-  if (!l2) return l1;
-  let temp;
-  while (l1 && l2) {
-    if (l1.val <= l2.val) {
-      temp = l1.next;
-      l1.next = l2;
-      l2 = l2.next;
-      l2.next = temp;
-    }
-  }
-  return l1;
-};
-
 var mergeList = function (l1, l2) {
   let head = new ListNode(0);
   while (l2 && l1) {
@@ -716,12 +681,6 @@ var finbona = function (n) {
   return r;
 };
 
-/**
- *
- * @param {*} A  数组
- * @param {*} p  起始下标
- * @param {*} r  结束下标 + 1
- */
 function divide(A, p, r) {
   const x = A[r - 1];
   let i = p;
@@ -738,12 +697,6 @@ function divide(A, p, r) {
   return i + 1;
 }
 
-/**
- *
- * @param {*} A  数组
- * @param {*} p  起始下标
- * @param {*} r  结束下标 + 1
- */
 function qsort(A, p = 0, r) {
   r = r || A.length;
 
