@@ -536,24 +536,33 @@ let arr = [2, 2, 2, 3, 2, 4];
 console.log(distance(arr));
 
 //8.素数
-var isPrime = function (n) {
-  const sqrt = Math.sqrt(n);
-  for (let i = 2; i <= sqrt; ++i) {
-    if (i * i === n) {
-      return false;
-    }
+//isPrime
+//1 3 4 5
+//1 4  2 2
+//6   2 3 3 2  22 33
+//8   2 4 4 2
+//9   3 3 3 3
+var isPrime = function (num) {
+  if (num < 2) return;
+  let end = Math.floor(Math.sqrt(num));
+  for (let i = 2; i <= end; i++) {
+    if (num % i === 0) return false;
   }
   return true;
 };
+console.log(isPrime(6)); //false
 
-//9.allPrime
-var allPrime = function (n) {
+//9.countPrime
+//better method : https://zhuanlan.zhihu.com/p/569221288
+var countPrime = function (n) {
+  if (n < 1) return 0;
+  if (n === 1) return 1;
+
   let res = new Array(n).fill(1);
-  let count = 0;
-  let sqrt = Math.sqrt(n);
-  for (let i = 0; i <= sqrt; ++i) {
+  let count = 1;
+  for (let i = 2; i <= n; ++i) {
     if (isPrime(i)) {
-      for (let j = i * i; j < n; ++i) {
+      for (let j = i * i; j < n; j += i) {
         res[j] = 0;
       }
       count++;
@@ -562,7 +571,10 @@ var allPrime = function (n) {
   return count;
 };
 
-//10.par
+console.log(countPrime(11)); //6
+
+//10.回文数
+// 1221 reverse still 1221
 var par = function (num) {
   if (num !== 0 && num % 10 === 0) return false;
   //1 21 1221 1 12
