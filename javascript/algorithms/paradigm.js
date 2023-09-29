@@ -54,4 +54,29 @@ const findMax = function (arr) {
 const arr = [3, 0, 0, 2, 0, 4];
 console.log(RainTerraces(arr)); //O(n^2)
 
-//TODO:Dynamic Programming
+//Dynamic Programming
+const DynamicRainTerraces = function (arr) {
+  let leftPool = [];
+  let rightPool = [];
+  let maxLeft = -1;
+  let maxRight = -1;
+  for (let index = 0; index < arr.length; index++) {
+    const left = arr[index];
+    const right = arr[arr.length - index - 1];
+
+    leftPool[index] = maxLeft = left > maxLeft ? left : maxLeft;
+    rightPool[index] = maxRight = right > maxRight ? right : maxRight;
+  }
+
+  let res = 0;
+  for (let index = 0; index < arr.length; index++) {
+    const current = arr[index];
+    maxLeft = leftPool[index];
+    maxRight = rightPool[index];
+    const store = maxLeft < maxRight ? maxLeft - current : maxRight - current;
+    res += store;
+  }
+  return res;
+};
+
+console.log(DynamicRainTerraces(arr)); //O(n) O(n)
