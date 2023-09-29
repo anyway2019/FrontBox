@@ -98,7 +98,6 @@ const stairsRecursive = function (stairsNumber) {
 //8-1 8-2 7-1 7-2
 //7-1 7-2 6-1 6-2 6-1 6-2 5-1 5-2
 //......
-
 //O(2^N) O(1)
 console.log(stairsRecursive(9))
 
@@ -176,3 +175,81 @@ const stairIterate = function (stairsNumber) {
 // 13
 //O(n) O(1)
 console.log(stairIterate(9))
+
+
+/**
+ * For example, for the array of values −2, 1, −3, 4, −1, 2, 1, −5, 4 
+ * the contiguous subarray with the largest sum is 4, −1, 2, 1, with sum 6.
+ */
+// input:[−2, 1, −3, 4, −1, 2, 1, −5, 4]
+// output: 6
+const largestSubArr = function (arr) {
+  let start = 0
+  let end = 0
+  let max = 0
+
+  for (let i = 0; i < arr.length; i++) {
+    let sum = 0
+
+    if (arr[i] < 0) continue
+
+    for (let j = i; j < arr.length; j++) {
+      const current = arr[j];
+      const result = current + sum
+      if (result > max) {
+        start = i
+        end = j
+        max = result
+      }
+      sum = result;
+    }
+  }
+
+  return [max, arr.slice(start, end + 1)]
+}
+
+//[ 6, [ 4, -1, 2, 1 ] ]
+//O(n^2) O(1)
+console.log(largestSubArr([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+const largestSubArrDynamic = function (arr) {
+  if (!arr.length) return -1
+
+  if (arr.length == 1) {
+    return arr[arr.length - 1]
+  }
+
+  let maxStartIndex = 0
+  let maxEndIndex = arr.length - 1
+  let max = -Infinity;
+
+  let sum = 0
+  let currentIndex = 0
+
+  for (let index = 0; index < arr.length; index++) {
+    const element = arr[index]
+    sum += element
+
+    if (sum > max) {
+      max = sum
+      maxStartIndex = currentIndex
+      maxEndIndex = index
+    }
+
+    //state transation function 
+    if (sum < 0) {
+      sum = 0
+      currentIndex = index + 1
+    }
+  }
+
+  return arr.slice(maxStartIndex, maxEndIndex + 1);
+}
+
+//if elements is all negative value, transform it
+//for example [-7,-4,-8,-1,-6,-3,-4,-10,-1]
+//all elements plus value 5,then get [-2, 1, -3, 4, -1, 2, 1, -5, 4] 
+//then handle as above and result elements minus value 5
+
+//O(n)
+console.log(largestSubArrDynamic([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
