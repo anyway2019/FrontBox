@@ -253,3 +253,127 @@ const largestSubArrDynamic = function (arr) {
 
 //O(n)
 console.log(largestSubArrDynamic([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+
+/**
+ * Input: [2,3,1,1,4]
+ * Output: true
+ * Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+ * 
+ * Input: [3,2,1,0,4]
+ * Output: false
+ * Explanation: You will always arrive at index 3 no matter what. Its maximum
+ * jump length is 0, which makes it impossible to reach the last index.
+ * 
+ * @param {*} arr 
+ */
+const jumpGame = function (arr) {
+  const steps = function (startIndex) {
+    if (startIndex == arr.length - 1) {
+      return true
+    }
+
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
+    let current = 1
+    while (current <= max) {
+      let currentValue = arr[current]
+      if (currentValue > 0 && steps(startIndex + current)) {
+        return true
+      }
+      current++
+    }
+
+    return false
+  }
+
+  return steps(0);
+}
+
+console.log('jumpGame:[3, 2, 1, 0, 4]', jumpGame([3, 2, 1, 0, 4]))
+console.log('jumpGame:[3, 2, 1, 1, 4]', jumpGame([3, 2, 1, 1, 4]))
+
+const jumpGameDynamicTopDown = function (arr) {
+  //pool stores current index is good or bad position
+  let pool = new Array(arr.length).fill(undefined)
+  pool[arr.length - 1] = true
+
+  const steps = function (startIndex) {
+    if (startIndex == arr.length - 1) {
+      pool[startIndex] = true
+      return true
+    }
+
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
+    let current = 1
+    while (current <= max) {
+      if (pool[current]) return true
+
+      let currentValue = arr[current]
+      if (currentValue > 0 && steps(startIndex + current)) {
+        return true
+      }
+      current++
+    }
+
+    return false
+  }
+
+  return steps(0)
+}
+
+console.log('jumpGameDynamicTopDown:[3, 2, 1, 0, 4]', jumpGameDynamicTopDown([3, 2, 1, 0, 4]))
+console.log('jumpGameDynamicTopDown:[3, 2, 1, 1, 4]', jumpGameDynamicTopDown([3, 2, 1, 1, 4]))
+
+const jumpGameDynamicBottomUp = function (arr) {
+  //pool stores current index is good or bad position
+  let pool = new Array(arr.length).fill(undefined)
+  pool[arr.length - 1] = true
+
+  const steps = function (startIndex) {
+    if (startIndex == 0) {
+      return true
+    }
+
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
+    let current = max
+    while (current >= 1) {
+      if (pool[current]) return true
+
+      let currentValue = arr[current]
+      if (currentValue > 0 && steps(startIndex - current)) {
+        pool[current] = true;
+        return true
+      }
+      current--
+    }
+
+    return false
+  }
+
+  return steps(arr.length - 2)
+}
+
+console.log('jumpGameDynamicBottomUp:[3, 2, 1, 0, 4]', jumpGameDynamicBottomUp([3, 2, 1, 0, 4]))
+console.log('jumpGameDynamicBottomUp:[3, 2, 1, 1, 4]', jumpGameDynamicBottomUp([3, 2, 1, 1, 4]))
+
+//the problem then reduce to get left-most good position
+const jumpGameGreedy = function (arr) {
+  let leftPosition = arr.length - 1
+  let pool = []
+
+  for (let i = arr.length - 2; i >= 0; i--) {
+    const element = arr[i];
+    const maxJumpLength = element + i;
+
+    if (maxJumpLength >= leftPosition) {
+      leftPosition = i
+      pool[i] = true
+    }
+  }
+
+  return pool[0] === true
+}
+
+console.log('jumpGameGreedy:[3, 2, 1, 0, 4]', jumpGameGreedy([3, 2, 1, 0, 4]))
+console.log('jumpGameGreedy:[3, 2, 1, 1, 4]', jumpGameGreedy([3, 2, 1, 1, 4]))
+
