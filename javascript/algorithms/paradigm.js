@@ -377,3 +377,85 @@ const jumpGameGreedy = function (arr) {
 console.log('jumpGameGreedy:[3, 2, 1, 0, 4]', jumpGameGreedy([3, 2, 1, 0, 4]))
 console.log('jumpGameGreedy:[3, 2, 1, 1, 4]', jumpGameGreedy([3, 2, 1, 1, 4]))
 
+/**
+ * LCS for input Sequences ABCDGH and AEDFHR is ADH of length 3.
+ * LCS for input Sequences AGGTAB and GXTXAYB is GTAB of length 4.
+ */
+
+const lcs = function (pre, next) {
+  let res = []
+  for (let i = 0; i < pre.length; i++) {
+    for (let j = 0; j < next.length; j++) {
+      if (pre[i] === next[j] && !res.some(c => c === pre[i])) {
+        res.push(pre[i])
+        break;
+      }
+    }
+  }
+  return res
+}
+
+//O(n^2) O(1)
+console.log(lcs("ABCDGH", "AEDFHR"))
+console.log(lcs("AGGTAB", "GXTXAYB"))
+
+const lcsWithKV = function (pre, next) {
+  let dic = new Map()
+  let res = []
+  for (let i = 0; i < pre.length; i++) {
+    const element = pre[i];
+    if (!dic.has(element))
+      dic.set(element, i)
+  }
+
+  for (let j = 0; j < next.length; j++) {
+    const element = next[j];
+    if (dic.has(element))
+      res.push(element)
+  }
+
+  return res
+}
+
+//O(n) O(n)
+console.log(lcsWithKV("ABCDGH", "AEDFHR"))
+console.log(lcsWithKV("AGGTAB", "GXTXAYB"))
+
+/**
+ * The longest common substring of the strings ABABC, BABCA and ABCBA is string ABC of length 3. 
+ * Other common substrings are A, AB, B, BA, BC and C.
+ */
+const lcSubString = function (pre, next) {
+  const s1 = [...pre]
+  const s2 = [...next]
+
+  const matrix = Array(s1.length + 1).fill(0).map(c => Array(s2.length + 1).fill(0))
+
+  let longestCommonStringLength = 0
+  let longestCommonStringRow = 0
+  let longestCommonStringColumn = 0
+
+  for (let row = 1; row < s1.length; row++) {
+    for (let colomn = 1; colomn < s2.length; colomn++) {
+      if (s1[row] === s2[colomn]) {
+        matrix[row][colomn] = matrix[row - 1][colomn - 1] + 1;
+      }
+
+      if (matrix[row][colomn] > longestCommonStringLength) {
+        longestCommonStringRow = row
+        longestCommonStringColumn = colomn
+        longestCommonStringLength = matrix[row][colomn]
+      }
+    }
+  }
+
+  let longestCommonString = ''
+  while (longestCommonStringLength > 0) {
+    longestCommonString = s1[longestCommonStringRow] + longestCommonString
+    longestCommonStringRow--
+    longestCommonStringLength--
+  }
+  return longestCommonString
+}
+
+console.log(lcSubString("ABABC", "BABCA"))
