@@ -55,14 +55,17 @@ for (let index = 0; index < empty.length; index++) {
   const element = empty[index];
   console.log(element);
 }
-//map forEach 忽略空项
+//map 忽略空项,并且返回一个新的array
 console.log(
   empty.map((x) => {
     console.log(x);
     return 6;
   })
-); //1,5//[ 6, <4 empty items>, 6 ]
+);
+//1,5
+//[ 6, <4 empty items>, 6 ]
 
+//forEach忽略空项
 empty.forEach((x) => console.log(x)); //1,5
 
 //数组索引与length
@@ -71,10 +74,10 @@ demos[3] = "grey";
 console.log(demos.length); //4
 demos[99] = "green";
 console.log(demos.length); //100
-
+//可以通过控制length删除数组元素
 demos.length = 2;
 console.log(demos); //['red', 'yellow']
-
+//可以通过数组长度达到List的add的效果
 demos[demos.length] = "new one";
 demos[demos.length] = "another one";
 console.log(demos); //[ 'red', 'yellow', 'new one', 'another one' ]
@@ -82,6 +85,7 @@ console.log(demos); //[ 'red', 'yellow', 'new one', 'another one' ]
 //检测数组
 console.log(demos instanceof Array); //true
 console.log(Array.isArray(demos)); //true
+console.log(typeof demos); //object
 
 //数组迭代器方法
 console.log(demos.keys().next()); //{ value: 0, done: false }
@@ -100,12 +104,12 @@ for (const [index, value] of demos.entries()) {
 
 //复制和填充  fill()  copyWithin()
 let indexs = [];
-
 indexs.fill(6);
 console.log(indexs); //[]
 
 indexs.fill(6, 0, 5);
 console.log(indexs); //[]
+//fill指填充现有数组空间如果数组为空则默认不填充
 
 indexs = Array(5).fill(0);
 console.log(indexs); //[0,0,0,0,0]
@@ -115,23 +119,48 @@ console.log(indexs); //[6,6,6,6,6]
 
 indexs.fill(7, 4, 999);
 console.log(indexs); //[ 6, 6, 6, 6, 7 ]
+
 let ints,
   reset = () => (ints = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 reset();
 ints.copyWithin(5);
 console.log(ints);
+// [
+//   0, 1, 2, 3, 4,
+//   0, 1, 2, 3, 4
+// ]
 reset();
 ints.copyWithin(0, 5);
 console.log(ints);
+// [
+//   5, 6, 7, 8, 9,
+//   5, 6, 7, 8, 9
+// ]
+
 reset();
 ints.copyWithin(4, 0, 3);
 console.log(ints);
+// [
+//   0, 1, 2, 3, 0,
+//   1, 2, 7, 8, 9
+// ]
+
 reset();
 ints.copyWithin(2, 0, 6);
 console.log(ints);
+// [
+//   0, 1, 0, 1, 2,
+//   3, 4, 5, 8, 9
+// ]
+
 reset();
 ints.copyWithin(-4, -7, -3);
 console.log(ints);
+// [
+//   0, 1, 2, 3, 4,
+//   5, 3, 4, 5, 6
+// ]
+
 //fill 与 copyWithin 索引部分可以用就值复制或填充可用部分
 
 //转换方法 toLocalString toString
@@ -153,6 +182,7 @@ stack.push(1);
 stack.push(2);
 stack.push(3);
 console.log(stack.pop()); //3
+console.log(stack); //3
 //shift 掐头
 let queue = [];
 queue.push(1);

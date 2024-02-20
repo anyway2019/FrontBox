@@ -82,16 +82,16 @@ const DynamicRainTerraces = function (arr) {
 console.log(DynamicRainTerraces(arr)); //O(n) O(n)
 
 /**
- * 
- * @param {*} stairsNumber 
- * @returns the ways of reaching the top 
+ *
+ * @param {*} stairsNumber
+ * @returns the ways of reaching the top
  */
 const stairsRecursive = function (stairsNumber) {
-  if (stairsNumber < 0) return 0
-  if (stairsNumber == 1) return 1
-  if (stairsNumber == 2) return 2
-  return stairsRecursive(stairsNumber - 1) + stairsRecursive(stairsNumber - 2)
-}
+  if (stairsNumber < 0) return 0;
+  if (stairsNumber == 1) return 1;
+  if (stairsNumber == 2) return 2;
+  return stairsRecursive(stairsNumber - 1) + stairsRecursive(stairsNumber - 2);
+};
 
 //9
 //9-1 9-2
@@ -99,72 +99,74 @@ const stairsRecursive = function (stairsNumber) {
 //7-1 7-2 6-1 6-2 6-1 6-2 5-1 5-2
 //......
 //O(2^N) O(1)
-console.log(stairsRecursive(9))
+console.log(stairsRecursive(9));
 
 //memorize the same result
 
 const stairsRecursiveMemo = function (stairsNumber) {
-  let pool = []
+  let pool = [];
   const getWays = function (stairsNumber) {
-    if (stairsNumber < 0) return 0
-    if (stairsNumber == 1) return 1
-    if (stairsNumber == 2) return 2
+    if (stairsNumber < 0) return 0;
+    if (stairsNumber == 1) return 1;
+    if (stairsNumber == 2) return 2;
 
-    if (pool[stairsNumber]) return pool[stairsNumber]
+    if (pool[stairsNumber]) return pool[stairsNumber];
 
-    pool[stairsNumber] = getWays(stairsNumber - 1) + getWays(stairsNumber - 2)
-    return pool[stairsNumber]
-  }
-  return getWays(stairsNumber)
-}
+    pool[stairsNumber] = getWays(stairsNumber - 1) + getWays(stairsNumber - 2);
+    return pool[stairsNumber];
+  };
+  return getWays(stairsNumber);
+};
 //9
 //9-1 9-2
 //8-1 8-2 7-1 7-2
 //6-1 6-2 5-1 5-2
 //......
 //O(n) O(n)
-console.log(stairsRecursiveMemo(9))
+console.log(stairsRecursiveMemo(9));
 
-//dynamic programming 
+//dynamic programming
 //f(n) = f(n-1) + f(n-2)
 //......
 //f(5) = f(4) + f(3) = 5 + 3 => 8
 //f(4) = f(3) + f(2) = 3 + 2 => 5
 //f(3) = f(2) + f(1) => 3
-//f(2) = 2 
+//f(2) = 2
 //f(1) = 1
 const stairsDynamic = function (stairsNumber) {
   if (stairsNumber <= 0) return 0;
-  const pool = new Array(stairsNumber + 1).fill(0)
+  const pool = new Array(stairsNumber + 1).fill(0);
   pool[0] = 0;
   pool[1] = 1;
   pool[2] = 2;
 
-  if (stairsNumber <= 2) return pool[stairsNumber]
+  if (stairsNumber <= 2) return pool[stairsNumber];
 
-  return stairsDynamic(stairsNumber - 1) + stairsDynamic(stairsNumber - 2)
-}
+  return stairsDynamic(stairsNumber - 1) + stairsDynamic(stairsNumber - 2);
+};
 //O(n) O(n)
-console.log(stairsDynamic(9))
+console.log(stairsDynamic(9));
 
 //iterate method
 const stairIterate = function (stairsNumber) {
-  if (stairsNumber <= 0) return 0
+  if (stairsNumber <= 0) return 0;
 
-  const pool = []
-  pool[0] = 0
-  pool[1] = 1
-  pool[2] = 2
+  const pool = [];
+  pool[0] = 0;
+  pool[1] = 1;
+  pool[2] = 2;
 
-  if (stairsNumber < 3) return pool[stairsNumber]
+  if (stairsNumber < 3) return pool[stairsNumber];
 
   for (let index = 3; index <= stairsNumber; index++) {
-    [pool[0], pool[1]] = [pool[1], pool[0] + pool[1]]
-    console.log(`[${pool[0]},${pool[1]}] = [${pool[1]},${pool[0]} + ${pool[1]}]`)
+    [pool[0], pool[1]] = [pool[1], pool[0] + pool[1]];
+    console.log(
+      `[${pool[0]},${pool[1]}] = [${pool[1]},${pool[0]} + ${pool[1]}]`
+    );
   }
 
-  return pool[0]
-}
+  return pool[0];
+};
 // [1,1] = [1,1 + 1]
 // [1,2] = [2,1 + 2]
 // [2,3] = [3,2 + 3]
@@ -174,81 +176,80 @@ const stairIterate = function (stairsNumber) {
 // [13,21] = [21,13 + 21]
 // 13
 //O(n) O(1)
-console.log(stairIterate(9))
-
+console.log(stairIterate(9));
 
 /**
- * For example, for the array of values −2, 1, −3, 4, −1, 2, 1, −5, 4 
+ * For example, for the array of values −2, 1, −3, 4, −1, 2, 1, −5, 4
  * the contiguous subarray with the largest sum is 4, −1, 2, 1, with sum 6.
  */
 // input:[−2, 1, −3, 4, −1, 2, 1, −5, 4]
 // output: 6
 const largestSubArr = function (arr) {
-  let start = 0
-  let end = 0
-  let max = 0
+  let start = 0;
+  let end = 0;
+  let max = 0;
 
   for (let i = 0; i < arr.length; i++) {
-    let sum = 0
+    let sum = 0;
 
-    if (arr[i] < 0) continue
+    if (arr[i] < 0) continue;
 
     for (let j = i; j < arr.length; j++) {
       const current = arr[j];
-      const result = current + sum
+      const result = current + sum;
       if (result > max) {
-        start = i
-        end = j
-        max = result
+        start = i;
+        end = j;
+        max = result;
       }
       sum = result;
     }
   }
 
-  return [max, arr.slice(start, end + 1)]
-}
+  return [max, arr.slice(start, end + 1)];
+};
 
 //[ 6, [ 4, -1, 2, 1 ] ]
 //O(n^2) O(1)
-console.log(largestSubArr([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+console.log(largestSubArr([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
 const largestSubArrDynamic = function (arr) {
-  if (!arr.length) return -1
+  if (!arr.length) return -1;
 
   if (arr.length == 1) {
-    return arr[arr.length - 1]
+    return arr[arr.length - 1];
   }
 
-  let maxStartIndex = 0
-  let maxEndIndex = arr.length - 1
+  let maxStartIndex = 0;
+  let maxEndIndex = arr.length - 1;
   let max = -Infinity;
 
-  let sum = 0
-  let currentIndex = 0
+  let sum = 0;
+  let currentIndex = 0;
 
   for (let index = 0; index < arr.length; index++) {
-    const element = arr[index]
-    sum += element
+    const element = arr[index];
+    sum += element;
 
     if (sum > max) {
-      max = sum
-      maxStartIndex = currentIndex
-      maxEndIndex = index
+      max = sum;
+      maxStartIndex = currentIndex;
+      maxEndIndex = index;
     }
 
-    //state transation function 
+    //state transation function
     if (sum < 0) {
-      sum = 0
-      currentIndex = index + 1
+      sum = 0;
+      currentIndex = index + 1;
     }
   }
 
   return arr.slice(maxStartIndex, maxEndIndex + 1);
-}
+};
 
 //if elements is all negative value, transform it
 //for example [-7,-4,-8,-1,-6,-3,-4,-10,-1]
-//all elements plus value 5,then get [-2, 1, -3, 4, -1, 2, 1, -5, 4] 
+//all elements plus value 5,then get [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 //then handle as above and result elements minus value 5
 
 //O(n)

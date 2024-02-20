@@ -3,6 +3,7 @@
 
 //动态属性
 var p = new Object();
+0.0;
 console.log(p.name); //undefined
 p.name = "faaccy";
 console.log(p.name); //faaccy
@@ -41,7 +42,6 @@ console.log(typeof i); //number
 //4.2执行上下文和作用域
 //作用域链
 var color = "blue";
-
 function changeColor() {
   if (color === "blue") {
     color = "red";
@@ -82,6 +82,8 @@ function buildUrl() {
   return url;
 }
 console.log(buildUrl());
+//'chrome-error://chromewebdata/?debug=true'
+
 //2.变量声明
 
 /* 
@@ -121,25 +123,26 @@ testHoist();
 复的 let 声明会抛出 SyntaxError。*/
 {
   let a = 1;
-  var a = 2; //Uncaught SyntaxError: Identifier 'a' has already been declared
+  //var a = 2; //Uncaught SyntaxError: Identifier 'a' has already been declared
 }
 /*let 的行为非常适合在循环中声明迭代变量。使用 var 声明的迭代变量会泄漏到循环外部，这种情
 况应该避免*/
-for (var i = 0; i < 5; ++i) {
-  console.log(i);
+for (var index = 0; index < 5; ++index) {
+  console.log(index);
 }
 console.log(i);
 for (let j = 0; j < 5; ++j) {}
-console.log(j); //j is not defined
+//console.log(j); //j is not defined
+
 /*严格来讲， let 在 JavaScript 运行时中也会被提升，但由于“暂时性死区”（ temporal dead zone）的
 缘故，实际上不能在声明之前使用 let 变量。因此，从写 JavaScript 代码的角度说， let 的提升跟 var
 是不一样的*/
 
 //暂时性死区？
 //const 声明时初始化，之后不可重新赋值（对象表现为不能重新赋值引用地址）
-//const a; //syntaxError 必须初始化
-const a = 1;
-//a = 2;//TypeError:给常量赋值
+//const variable; //syntaxError 必须初始化
+const variable = 1;
+//variable = 2;//TypeError:给常量赋值
 
 /*const 声明只应用到顶级原语或者对象。换句话说，赋值为对象的 const 变量不能再被重新赋值
 为其他引用值，但对象的键则不受限制 */
@@ -148,10 +151,10 @@ obj.name = "jojo";
 console.log(obj); //{name:'jojo'}
 /*如果想让整个对象都不能修改，可以使用 Object.freeze()，这样再给属性赋值时虽然不会报错，
 但会静默失败*/
-const target = {};
-Object.freeze(target);
-target.name = "jake";
-console.log(target);
+const targetObj = {};
+Object.freeze(targetObj);
+targetObj.name = "jake";
+console.log(targetObj);
 //标识符查找
 var color = "blue";
 

@@ -25,6 +25,7 @@ This is a personal front notes and include list of various development resources
 
 - [ant-design](https://ant.design/docs/spec/introduce): A comprehensive UI framework for building elegant and responsive user interfaces.
 - [MUI](https://mui.com/): Move faster with intuitive React UI tools. Follow your own design system, or start with Material Design (Material UI).
+- [shadcnui]()
 
 ## Chart
 
@@ -77,6 +78,7 @@ This is a personal front notes and include list of various development resources
 - [htmx](https://github.com/bigskysoftware/htmx): htmx allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.
 - [xstate](https://github.com/statelyai/xstate): XState is a state management and orchestration solution for JavaScript and TypeScript apps.
 - [pixijs](https://github.com/pixijs/pixijs): This project aims to provide a fast, lightweight 2D library that works across all devices. The PixiJS renderer allows everyone to enjoy the power of hardware acceleration without prior knowledge of WebGL. Also, it's fast. Really fast.
+- [auto.js]()
 
 ## Tools
 
