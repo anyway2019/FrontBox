@@ -11,9 +11,9 @@ var twoSumList = function (left, right) {
   var res = head;
   while (left && right) {
     var sum = left.val + right.val + temp;
-    temp = sum % 10;
+    temp = sum > 9 ? Math.floor(sum / 10) : 0;
 
-    left.val = sum;
+    left.val = sum > 9 ? sum % 10 : sum;
     res.next = left;
 
     res = res.next;
@@ -32,3 +32,27 @@ var twoSumList = function (left, right) {
   }
   return head.next;
 };
+
+var headLeft = {
+  val: 2,
+  next: {
+    val: 4,
+    next: {
+      val: 3,
+      next: null,
+    },
+  },
+};
+
+var headRight = {
+  val: 5,
+  next: {
+    val: 6,
+    next: {
+      val: 4,
+      next: null,
+    },
+  },
+};
+
+console.log(twoSumList(headLeft, headRight));

@@ -4,7 +4,7 @@
  * @param {*} left
  * @param {*} right
  */
-var mergList = function (left, right) {
+var mergeList = function (left, right) {
   var head = { val: null, next: null };
   var res = head;
   while (left && right) {
@@ -28,3 +28,27 @@ var mergList = function (left, right) {
 
   return head.next;
 };
+
+var headLeft = {
+  val: 1,
+  next: {
+    val: 2,
+    next: {
+      val: 4,
+      next: null,
+    },
+  },
+};
+
+var headRight = {
+  val: 1,
+  next: {
+    val: 3,
+    next: {
+      val: 4,
+      next: null,
+    },
+  },
+};
+
+console.log(mergeList(headLeft, headRight));
