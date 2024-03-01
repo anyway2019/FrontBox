@@ -10,3 +10,20 @@
     解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
         偷窃到的最高金额 = 1 + 3 = 4 。
  */
+
+//dp[i] = max(dp[i-1],dp[i-2]+num[i])
+
+var rob = function (nums) {
+  let length = nums.length;
+  if (length == 1) return nums[0];
+  if (length == 2) return Math.max(nums[0], nums[1]);
+
+  let res = [nums[0], Math.max(nums[0], nums[1])];
+  for (let i = 2; i < nums.length; i++) {
+    res[i] = Math.max(res[i - 1], res[i - 2] + nums[i]);
+  }
+
+  return res[res.length - 1];
+};
+
+console.log(rob([2, 7, 9, 3, 1]));
