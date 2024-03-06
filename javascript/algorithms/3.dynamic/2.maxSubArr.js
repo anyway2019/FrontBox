@@ -5,26 +5,16 @@
    解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
  */
 var maxSubArr = function (arr) {
-  var max = -999;
-  var res = [];
-  for (let i = 0; i < arr.length; i++) {
-    const start = arr[i];
-    if (start > 0) {
-      var sum = arr[i];
-      for (let j = i + 1; j < arr.length; j++) {
-        const end = arr[j];
-        sum += end;
-        if (end > 0) {
-          if (sum > max) {
-            max = sum;
-            res = [arr.slice(i, j + 1), max];
-          }
-        }
-      }
+  var dp = [arr[0]]
+  for (let i = 1; i < arr.length; i++) {
+    if (dp[i - 1] < 0) {
+      dp[i] = arr[i]
+    } else {
+      dp[i] = dp[i - 1] + arr[i]
     }
   }
 
-  return res;
-};
+  return Math.max(...dp);
+}
 
-console.log(maxSubArr([-2, 1, -3, 4, -1, 2, 1, -5, 4])); //[ [ 4, -1, 2, 1 ], 6 ]
+console.log(maxSubArr([-2, 1, -3, 4, -1, 2, 1, -5, 4])); //6

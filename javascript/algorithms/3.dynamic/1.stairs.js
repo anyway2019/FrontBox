@@ -11,6 +11,7 @@
     3.  2 阶 + 1 阶
  */
 
+//以最后一阶为例，达到最后一阶要么时一步要么时两步，那么爬到楼顶就是倒数一阶和倒数二阶的总和。
 var stair = function (n) {
   if (n > 2) return stair(n - 2) + stair(n - 1);
   if (n == 1) return 1;
