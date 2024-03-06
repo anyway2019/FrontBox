@@ -12,4 +12,7 @@ let longestCommonPrefix = function (arr) {
       prefix = prefix.slice(0, -1); //状态转移
     }
   }
+  return prefix;
 };
+
+console.log(longestCommonPrefix(["flower", "flow", "flight"]));

@@ -31,7 +31,6 @@ var reverse = function (arr, start, end) {
     arr[i + start] = arr[end - i];
     arr[end - i] = temp;
   }
-  console.log(arr);
 };
 
 let rotateArray2 = function (arr, k) {

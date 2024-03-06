@@ -7,5 +7,17 @@
     解释: 输入数组表示数字 123。
  */
 var addOne = function (arr) {
-
-}
+  let temp = 1;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const sum = arr[i] + temp;
+    if (sum > 9) {
+      arr[i] = sum % 10;
+      temp = Math.floor(sum / 10);
+    } else {
+      temp = 0;
+      arr[i] = sum;
+    }
+  }
+  return arr;
+};
+console.log(addOne([1, 9, 9])); //[ 2, 0, 0 ]

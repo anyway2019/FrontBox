@@ -253,130 +253,141 @@ const largestSubArrDynamic = function (arr) {
 //then handle as above and result elements minus value 5
 
 //O(n)
-console.log(largestSubArrDynamic([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
-
+console.log(largestSubArrDynamic([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
 /**
  * Input: [2,3,1,1,4]
  * Output: true
  * Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
- * 
+ *
  * Input: [3,2,1,0,4]
  * Output: false
  * Explanation: You will always arrive at index 3 no matter what. Its maximum
  * jump length is 0, which makes it impossible to reach the last index.
- * 
- * @param {*} arr 
+ *
+ * @param {*} arr
  */
 const jumpGame = function (arr) {
   const steps = function (startIndex) {
     if (startIndex == arr.length - 1) {
-      return true
+      return true;
     }
 
-    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
-    let current = 1
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex);
+    let current = 1;
     while (current <= max) {
-      let currentValue = arr[current]
+      let currentValue = arr[current];
       if (currentValue > 0 && steps(startIndex + current)) {
-        return true
+        return true;
       }
-      current++
+      current++;
     }
 
-    return false
-  }
+    return false;
+  };
 
   return steps(0);
-}
+};
 
-console.log('jumpGame:[3, 2, 1, 0, 4]', jumpGame([3, 2, 1, 0, 4]))
-console.log('jumpGame:[3, 2, 1, 1, 4]', jumpGame([3, 2, 1, 1, 4]))
+console.log("jumpGame:[3, 2, 1, 0, 4]", jumpGame([3, 2, 1, 0, 4]));
+console.log("jumpGame:[3, 2, 1, 1, 4]", jumpGame([3, 2, 1, 1, 4]));
 
 const jumpGameDynamicTopDown = function (arr) {
   //pool stores current index is good or bad position
-  let pool = new Array(arr.length).fill(undefined)
-  pool[arr.length - 1] = true
+  let pool = new Array(arr.length).fill(undefined);
+  pool[arr.length - 1] = true;
 
   const steps = function (startIndex) {
     if (startIndex == arr.length - 1) {
-      pool[startIndex] = true
-      return true
+      pool[startIndex] = true;
+      return true;
     }
 
-    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
-    let current = 1
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex);
+    let current = 1;
     while (current <= max) {
-      if (pool[current]) return true
+      if (pool[current]) return true;
 
-      let currentValue = arr[current]
+      let currentValue = arr[current];
       if (currentValue > 0 && steps(startIndex + current)) {
-        return true
+        return true;
       }
-      current++
+      current++;
     }
 
-    return false
-  }
+    return false;
+  };
 
-  return steps(0)
-}
+  return steps(0);
+};
 
-console.log('jumpGameDynamicTopDown:[3, 2, 1, 0, 4]', jumpGameDynamicTopDown([3, 2, 1, 0, 4]))
-console.log('jumpGameDynamicTopDown:[3, 2, 1, 1, 4]', jumpGameDynamicTopDown([3, 2, 1, 1, 4]))
+console.log(
+  "jumpGameDynamicTopDown:[3, 2, 1, 0, 4]",
+  jumpGameDynamicTopDown([3, 2, 1, 0, 4])
+);
+console.log(
+  "jumpGameDynamicTopDown:[3, 2, 1, 1, 4]",
+  jumpGameDynamicTopDown([3, 2, 1, 1, 4])
+);
 
 const jumpGameDynamicBottomUp = function (arr) {
   //pool stores current index is good or bad position
-  let pool = new Array(arr.length).fill(undefined)
-  pool[arr.length - 1] = true
+  let pool = new Array(arr.length).fill(undefined);
+  pool[arr.length - 1] = true;
 
   const steps = function (startIndex) {
     if (startIndex == 0) {
-      return true
+      return true;
     }
 
-    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex)
-    let current = max
+    let max = Math.min(arr[startIndex], arr.length - 1 - startIndex);
+    let current = max;
     while (current >= 1) {
-      if (pool[current]) return true
+      if (pool[current]) return true;
 
-      let currentValue = arr[current]
+      let currentValue = arr[current];
       if (currentValue > 0 && steps(startIndex - current)) {
         pool[current] = true;
-        return true
+        return true;
       }
-      current--
+      current--;
     }
 
-    return false
-  }
+    return false;
+  };
 
-  return steps(arr.length - 2)
-}
+  return steps(arr.length - 2);
+};
 
-console.log('jumpGameDynamicBottomUp:[3, 2, 1, 0, 4]', jumpGameDynamicBottomUp([3, 2, 1, 0, 4]))
-console.log('jumpGameDynamicBottomUp:[3, 2, 1, 1, 4]', jumpGameDynamicBottomUp([3, 2, 1, 1, 4]))
+console.log(
+  "jumpGameDynamicBottomUp:[3, 2, 1, 0, 4]",
+  jumpGameDynamicBottomUp([3, 2, 1, 0, 4])
+);
+console.log(
+  "jumpGameDynamicBottomUp:[3, 2, 1, 1, 4]",
+  jumpGameDynamicBottomUp([3, 2, 1, 1, 4])
+);
 
 //the problem then reduce to get left-most good position
 const jumpGameGreedy = function (arr) {
-  let leftPosition = arr.length - 1
-  let pool = []
+  let leftPosition = arr.length - 1;
+  let pool = [];
 
   for (let i = arr.length - 2; i >= 0; i--) {
     const element = arr[i];
     const maxJumpLength = element + i;
 
     if (maxJumpLength >= leftPosition) {
-      leftPosition = i
-      pool[i] = true
+      leftPosition = i;
+      pool[i] = true;
     }
   }
 
-  return pool[0] === true
-}
+  return pool[0] === true;
+};
 
-console.log('jumpGameGreedy:[3, 2, 1, 0, 4]', jumpGameGreedy([3, 2, 1, 0, 4]))
-console.log('jumpGameGreedy:[3, 2, 1, 1, 4]', jumpGameGreedy([3, 2, 1, 1, 4]))
+console.log("jumpGameGreedy:[3, 2, 1, 0, 4]", jumpGameGreedy([3, 2, 1, 0, 4]));
+console.log("jumpGameGreedy:[3, 2, 1, 1, 4]", jumpGameGreedy([3, 2, 1, 1, 4]));
 
 /**
  * LCS for input Sequences ABCDGH and AEDFHR is ADH of length 3.
@@ -384,57 +395,57 @@ console.log('jumpGameGreedy:[3, 2, 1, 1, 4]', jumpGameGreedy([3, 2, 1, 1, 4]))
  */
 
 const lcs = function (pre, next) {
-  let res = []
+  let res = [];
   for (let i = 0; i < pre.length; i++) {
     for (let j = 0; j < next.length; j++) {
-      if (pre[i] === next[j] && !res.some(c => c === pre[i])) {
-        res.push(pre[i])
+      if (pre[i] === next[j] && !res.some((c) => c === pre[i])) {
+        res.push(pre[i]);
         break;
       }
     }
   }
-  return res
-}
+  return res;
+};
 
 //O(n^2) O(1)
-console.log(lcs("ABCDGH", "AEDFHR"))
-console.log(lcs("AGGTAB", "GXTXAYB"))
+console.log(lcs("ABCDGH", "AEDFHR"));
+console.log(lcs("AGGTAB", "GXTXAYB"));
 
 const lcsWithKV = function (pre, next) {
-  let dic = new Map()
-  let res = []
+  let dic = new Map();
+  let res = [];
   for (let i = 0; i < pre.length; i++) {
     const element = pre[i];
-    if (!dic.has(element))
-      dic.set(element, i)
+    if (!dic.has(element)) dic.set(element, i);
   }
 
   for (let j = 0; j < next.length; j++) {
     const element = next[j];
-    if (dic.has(element))
-      res.push(element)
+    if (dic.has(element)) res.push(element);
   }
 
-  return res
-}
+  return res;
+};
 
 //O(n) O(n)
-console.log(lcsWithKV("ABCDGH", "AEDFHR"))
-console.log(lcsWithKV("AGGTAB", "GXTXAYB"))
+console.log(lcsWithKV("ABCDGH", "AEDFHR"));
+console.log(lcsWithKV("AGGTAB", "GXTXAYB"));
 
 /**
- * The longest common substring of the strings ABABC, BABCA and ABCBA is string ABC of length 3. 
+ * The longest common substring of the strings ABABC, BABCA and ABCBA is string ABC of length 3.
  * Other common substrings are A, AB, B, BA, BC and C.
  */
 const lcSubString = function (pre, next) {
-  const s1 = [...pre]
-  const s2 = [...next]
+  const s1 = [...pre];
+  const s2 = [...next];
 
-  const matrix = Array(s1.length + 1).fill(0).map(c => Array(s2.length + 1).fill(0))
+  const matrix = Array(s1.length + 1)
+    .fill(0)
+    .map((c) => Array(s2.length + 1).fill(0));
 
-  let longestCommonStringLength = 0
-  let longestCommonStringRow = 0
-  let longestCommonStringColumn = 0
+  let longestCommonStringLength = 0;
+  let longestCommonStringRow = 0;
+  let longestCommonStringColumn = 0;
 
   for (let row = 1; row < s1.length; row++) {
     for (let colomn = 1; colomn < s2.length; colomn++) {
@@ -443,20 +454,20 @@ const lcSubString = function (pre, next) {
       }
 
       if (matrix[row][colomn] > longestCommonStringLength) {
-        longestCommonStringRow = row
-        longestCommonStringColumn = colomn
-        longestCommonStringLength = matrix[row][colomn]
+        longestCommonStringRow = row;
+        longestCommonStringColumn = colomn;
+        longestCommonStringLength = matrix[row][colomn];
       }
     }
   }
 
-  let longestCommonString = ''
+  let longestCommonString = "";
   while (longestCommonStringLength > 0) {
-    longestCommonString = s1[longestCommonStringRow] + longestCommonString
-    longestCommonStringRow--
-    longestCommonStringLength--
+    longestCommonString = s1[longestCommonStringRow] + longestCommonString;
+    longestCommonStringRow--;
+    longestCommonStringLength--;
   }
-  return longestCommonString
-}
+  return longestCommonString;
+};
 
-console.log(lcSubString("ABABC", "BABCA"))
+console.log(lcSubString("ABABC", "BABCA"));

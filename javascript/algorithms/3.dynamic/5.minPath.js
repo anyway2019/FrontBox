@@ -7,10 +7,34 @@
 
     输入:
     [
-    [1,3,1],
-    [1,5,1],
-    [4,2,1]
+      [1,3,1],
+      [1,5,1],
+      [4,2,1]
     ]
     输出: 7
     解释: 因为路径 1→3→1→1→1 的总和最小。
  */
+
+//convert to 从终点往起点方向左或向上找一个数值最小的元素然后重复
+var minPath = function (arr, m, n) {
+  var res = 0;
+  var tx = m - 1;
+  var ty = n - 1;
+  for (let i = m - 1, j = n - 1; i >= 0 && j >= 0; i--, j--) {
+    res += Math.min(arr[tx][j - 1], arr[i - 1][j]) + arr[i][j];
+    console.log(Math.min(arr[i][j - 1], arr[i - 1][j]), arr[i][j], res);
+  }
+  return res;
+};
+
+console.log(
+  minPath(
+    [
+      [1, 3, 1],
+      [1, 5, 1],
+      [4, 2, 1],
+    ],
+    3,
+    3
+  )
+);
